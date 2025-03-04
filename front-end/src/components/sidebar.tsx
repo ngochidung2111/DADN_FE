@@ -22,19 +22,19 @@ const Sidebar = () => {
           <div className={styles.icon1}>
             <FaHome size={24} />
           </div>
-          <span className={styles.label}>Home</span>
+          <span className={styles.label}>Trang chủ</span>
         </div>
         <div className={styles.iconWrapper}>
           <div className={styles.icon1}>
             <IoPersonSharp size={24} />
           </div>
-          <span className={styles.label}>User</span>
+          <span className={styles.label}>Trợ năng </span>
         </div>
         <div className={styles.iconWrapper}>
           <div className={styles.icon1}>
             <FaCog size={24} />
           </div>
-          <span className={styles.label}>Circle</span>
+          <span className={styles.label}>Cài đặt</span>
         </div>
         <div className={styles.iconWrapper}>
           

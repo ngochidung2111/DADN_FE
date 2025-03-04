@@ -11,14 +11,15 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-top: 20px;
-  transition: width 0.3s ease; /* Hiệu ứng khi thay đổi độ rộng */
+  padding-top: 10px;
+  transition: width 0.3s ease-in; /* Hiệu ứng khi thay đổi độ rộng */
   
 }
 
 /* Khi hover trên sidebar (trên màn hình lớn) */
 .sidebar:hover {
   width: 200px;
+  transition: width 0.5s ease-out;
 }
 
 /* Menu icon (Biểu tượng mở/đóng sidebar) */
@@ -28,94 +29,7 @@
   color: white;
   justify-content: center; /* Căn giữa icon */
   transition: all 0.3s ease;
-}
-.icon:hover {
-  color: #ffbf00;  /* Màu vàng khi hover */
-}
-
-/* Container bọc cho từng icon và label */
-/* Container bọc cho từng icon và label */
-.iconWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start; /* Giữ icon ở bên trái */
-  width: 190px; /* Tăng chiều rộng để chứa cả icon và label */
-  margin: 30px auto;
-  padding-left: 10px; /* Tạo không gian để border không chạm icon */
-  transition: all 0.3s ease;
-}
-.iconWrapper:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  border-radius: 30px;
-}
-.iconperson{
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center; /* Căn giữa icon */
-  width: 50px; /* Giữ cố định chiều rộng cho phần icon */
-  margin: 30px auto;  /* Sử dụng auto để căn giữa theo chiều ngang, loại bỏ margin-left */
-  bottom: 0;
-}
-/* Định dạng cho icon chính */
-.icon1 {
-  cursor: pointer;
-  color: white;
- transition: all 0.3s ease;
-  font-size: 24px;
-}
-
-/* Label được đặt tuyệt đối, bên phải icon */
-.label {
-  position: absolute;
-  margin-left: 60px; /* Cách icon 10px so với chiều rộng cố định 50px */
-  color: white;
-  font-size: 14px;
-  white-space: nowrap;
-  opacity:0;
-  transition: all 0.3s ease;
-  pointer-events: none; /* Cho phép hover events đi qua label */
-}
-
-.iconprimary {
-  margin-top: 40px;
-}
-/* Khi hover sidebar, chỉ cần hiển thị label */
-.sidebar:hover .label {
-  opacity: 1;
-}
-
-/* Sidebar.module.css */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: 50px;
-  background-color: #2f3136;
-  /* Sử dụng flex-direction cột, nhưng căn lề trái để icon cố định */
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-top: 20px;
-  transition: all 0.5s ease; /* Hiệu ứng khi thay đổi độ rộng */
-  
-}
-
-/* Khi hover trên sidebar (trên màn hình lớn) */
-.sidebar:hover {
-  width: 200px;
-}
-
-/* Menu icon (Biểu tượng mở/đóng sidebar) */
-.icon {
-  margin: 13px;
-  cursor: pointer;
-  color: white;
-  justify-content: center; /* Căn giữa icon */
-  transition: all 0.3s ease;
+  margin-top: 5px;
 }
 .icon:hover {
   color: #ffbf00;  /* Màu vàng khi hover */
@@ -136,7 +50,7 @@
 .iconWrapper:hover {
   background-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
- 
+  border-radius: 30px;
 }
 .iconperson{
   position: absolute;
@@ -151,7 +65,7 @@
 .icon1 {
   cursor: pointer;
   color: white;
- 
+  transition: all 0.3s ease;
   font-size: 24px;
 }
 
@@ -168,7 +82,7 @@
 }
 
 .iconprimary {
-  margin-top: 40px;
+  margin-top: 50px;
 }
 /* Khi hover sidebar, chỉ cần hiển thị label */
 .sidebar:hover .label {
