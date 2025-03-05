@@ -1,0 +1,163 @@
+
+/* Sidebar.module.css */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 50px;
+  background-color: #2f3136;
+  /* Sử dụng flex-direction cột, nhưng căn lề trái để icon cố định */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: 10px;
+  transition: width 0.3s ease-in; /* Hiệu ứng khi thay đổi độ rộng */
+  
+}
+
+/* Khi hover trên sidebar (trên màn hình lớn) */
+.sidebar:hover {
+  width: 200px;
+  transition: width 0.5s ease-out;
+  transition-delay: 0s;
+}
+
+/* Menu icon (Biểu tượng mở/đóng sidebar) */
+.icon {
+  margin: 13px;
+  cursor: pointer;
+  color: white;
+  justify-content: center; /* Căn giữa icon */
+  transition: all 0.3s ease;
+  margin-top: 5px;
+}
+.icon:hover {
+  color: #ffbf00;  /* Màu vàng khi hover */
+}
+
+/* Container bọc cho từng icon và label */
+/* Container bọc cho từng icon và label */
+.iconWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Giữ icon ở bên trái */
+  width: 180px; /* Tăng chiều rộng để chứa cả icon và label */
+  margin: 30px auto;
+  
+  transition: all 0.1s ease;
+  padding: 10px;
+}
+.iconWrapper:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px; 
+
+
+}
+.iconperson{
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Căn giữa icon */
+  width: 50px; /* Giữ cố định chiều rộng cho phần icon */
+  margin: 30px auto;  /* Sử dụng auto để căn giữa theo chiều ngang, loại bỏ margin-left */
+  bottom: 0;
+}
+/* Định dạng cho icon chính */
+.icon1 {
+  cursor: pointer;
+  color: white;
+  transition: all 0.3s ease;
+  font-size: 24px;
+  display: flex; /* Add this */
+  justify-content: center; /* Add this */
+  
+}
+
+/* Label được đặt tuyệt đối, bên phải icon */
+.label {
+  position: absolute;
+  margin-left: 50px; /* Cách icon 10px so với chiều rộng cố định 50px */
+  color: white;
+  font-size: 15px;
+  white-space: nowrap;
+  opacity:0;
+  transition: all 0.3s ease;
+  transition-delay:0.2s;
+  pointer-events: none; /* Cho phép hover events đi qua label */
+}
+.labelperson {
+  position: absolute;
+  margin-left: 150px; /* Cách icon 10px so với chiều rộng cố định 50px */
+  color: white;
+  font-size: 15px;
+  white-space: nowrap;
+  opacity:0;
+  transition: all 0.3s ease;
+  pointer-events: none; /* Cho phép hover events đi qua label */
+  transition-delay:0.2s;
+}
+
+
+.iconprimary {
+  margin-top: 50px;
+}
+/* Khi hover sidebar, chỉ cần hiển thị label */
+.sidebar:hover .label {
+  opacity: 1;
+}
+.sidebar:hover .labelperson {
+  opacity: 1;
+}
+/* Media query cho màn hình nhỏ */
+@media (max-width: 768px) {
+  .sidebar {
+ 
+  }
+
+  .sidebar.open {
+    width: 200px;
+  }
+
+  .icon {
+    margin: 10px;
+  }
+}
+@media (min-width: 1600px) {
+  .sidebar {
+    
+  }
+
+  .sidebar:hover {
+    
+  }
+
+
+}
+/* Media query cho màn hình nhỏ */
+@media (max-width: 768px) {
+  .sidebar {
+ 
+  }
+
+  .sidebar.open {
+    width: 200px;
+  }
+
+  .icon {
+    margin: 10px;
+  }
+}
+@media (min-width: 1600px) {
+  .sidebar {
+    
+  }
+
+  .sidebar:hover {
+    
+  }
+
+
+}
