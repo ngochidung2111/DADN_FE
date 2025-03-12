@@ -1,12 +1,18 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-const Switch = () => {
+interface SwitchProps {
+  checked: boolean;
+  onChange: () => void;
+  id: string; // Thêm prop id động
+}
+
+const Switch: React.FC<SwitchProps> = ({ checked, onChange, id }) => {
   return (
     <StyledWrapper>
       <div className="checkbox-wrapper-51">
-        <input id="cbx-51" type="checkbox" />
-        <label className="toggle" htmlFor="cbx-51">
+        <input id={id} type="checkbox" checked={checked} onChange={onChange} />
+        <label className="toggle" htmlFor={id}>
           <span>
             <svg viewBox="0 0 10 10" height="10px" width="10px">
               <path d="M5,1 L5,1 C2.790861,1 1,2.790861 1,5 L1,5 C1,7.209139 2.790861,9 5,9 L5,9 C7.209139,9 9,7.209139 9,5 L9,5 C9,2.790861 7.209139,1 5,1 L5,9 L5,1 Z" />
@@ -16,7 +22,7 @@ const Switch = () => {
       </div>
     </StyledWrapper>
   );
-}
+};
 
 const StyledWrapper = styled.div`
   .checkbox-wrapper-51 input[type="checkbox"] {
@@ -56,7 +62,7 @@ const StyledWrapper = styled.div`
     display: block;
     background: #fff;
     border-radius: 50%;
-    box-shadow: 0 2px 6px rgba(154,153,153,0.75);
+    box-shadow: 0 2px 6px rgba(154, 153, 153, 0.75);
     transition: all 0.2s ease;
   }
 
@@ -87,6 +93,7 @@ const StyledWrapper = styled.div`
     stroke: #000000;
     stroke-dasharray: 25;
     stroke-dashoffset: 25;
-  }`;
+  }
+`;
 
 export default Switch;

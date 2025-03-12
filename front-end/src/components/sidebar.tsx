@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { FaHome, FaCircle, FaCog, FaBars } from 'react-icons/fa';
 import { IoPersonSharp } from "react-icons/io5";
 import styles from './Sidebar.module.css';
-import Person from '../assets/person.png';
+// import Person from '../assets/person.png';
 
 interface SidebarProps {
   isLogin: boolean;
   userName?: string;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isLogin , userName = 'User'}) => {
+const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {

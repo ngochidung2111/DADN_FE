@@ -43,8 +43,8 @@
   display: flex;
   align-items: center;
   justify-content: flex-start; /* Giữ icon ở bên trái */
-  width: 180px; /* Tăng chiều rộng để chứa cả icon và label */
-  margin: 30px auto;
+  width: 20px; /* Tăng chiều rộng để chứa cả icon và label */
+  margin: 30px 0;
   
   transition: all 0.1s ease;
   padding: 10px;
@@ -53,8 +53,11 @@
   background-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 5px; 
+  width: 180px; /* Mở rộng khi hover */
 
-
+}
+.sidebar:hover .iconWrapper {
+  width: 180px;
 }
 .iconperson{
   position: absolute;
