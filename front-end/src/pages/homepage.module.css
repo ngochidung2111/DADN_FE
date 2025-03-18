@@ -7,6 +7,7 @@
     height: 100vh;
     width: 96vw;
     box-sizing: border-box;
+    color: #000;
 }
 
 /* Khu vực các thẻ metric (nhiệt độ, độ ẩm, CO2, v.v.) */
@@ -46,9 +47,11 @@
 .chartContainer {
     flex: 1;
     background-color: #fff;
+    height: 94vh;
     border-radius: 15px 0 0 15px;
     padding: 0 12px;
-    box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);    
+    color: #000;
 }
 
 .chartContainer h3 {

@@ -16,6 +16,8 @@ body {
     align-items: center;
     gap: 6vw;
     padding: 30px 50px 30px 50px;
+    color: #000;
+
 }
 
 /* Panel bên trái (Chất lượng không khí) */

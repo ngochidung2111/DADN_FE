@@ -10,7 +10,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Homepage />} />
+        <Route path="/" element={<Operations />} />
         <Route path="/timerpage" element={<TimerPage />} />
         {/* You can add more routes here */}
       </Routes>
