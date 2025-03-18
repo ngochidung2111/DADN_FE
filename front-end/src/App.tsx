@@ -3,13 +3,17 @@
 // import viteLogo from '/vite.svg'
 import Sidebar from './components/sidebar';
 import Homepage from './pages/homepage';
+import Statistic from './pages/statistic';
+import Operations from './pages/operations';
 import './App.css'
 
 function App() {
   return (
     <div className="app-container">
       <Sidebar />
-      <Homepage />
+      <Operations />
+      {/* <Statistic /> */}
+      {/* <Homepage /> */}
     </div>
   )
 }

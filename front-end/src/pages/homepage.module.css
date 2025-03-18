@@ -59,6 +59,7 @@
 .chartWrapper {
     background-color: #D7FBDE;
     padding-top: 20px;
+    margin-left: 20px;
     width: 96%;
     border-radius: 8px;
     box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);
