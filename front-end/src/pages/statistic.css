@@ -1,0 +1,68 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #C5E3FF;
+}
+
+.mainContent {
+    padding: 20px;
+    background-color: #C5E3FF;
+    width: 100vw;
+    height: 100vh;
+}
+
+.chartContainer {
+    margin: 20px 0;
+    display: flex;
+}
+
+.criteriaSelector {
+    margin-bottom: 10px;
+    display: grid;
+}
+
+.criterionButton {
+    padding: 10px 15px;
+    margin-right: 10px;
+    border: none;
+    background-color: #eee;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.selectedCriterion {
+    padding: 10px 15px;
+    margin-right: 10px;
+    border: none;
+    background-color: #ccc;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.chartWrapper {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.customLegendContainer {
+    margin-bottom: 10px;
+}
+
+.customLegend {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.legendColorBox {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 5px;
+    border-radius: 2px;
+}
