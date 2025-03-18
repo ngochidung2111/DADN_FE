@@ -10,7 +10,7 @@ import {
     Cell
 } from 'recharts';
 import styles from './homepage.module.css';
-
+import Sidebar from '../components/sidebar';
 // Dữ liệu mẫu cho biểu đồ (giả sử giá trị giống với quality)
 const data = [
     { date: '3/1', quality: 40 },
@@ -53,6 +53,7 @@ const criteria = [
 const CustomizedLegend: React.FC = () => {
     return (
         <div className={styles.customLegendContainer}>
+            <Sidebar />
             <div className={styles.customLegend}>
                 <span>
                     <span className={styles.legendColorBox} style={{ backgroundColor: '#63B15E' }}></span>

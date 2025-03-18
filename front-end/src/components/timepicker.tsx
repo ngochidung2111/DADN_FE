@@ -1,0 +1,54 @@
+import React, { useState } from 'react';
+
+const TimePicker: React.FC = () => {
+  const [startTime, setStartTime] = useState<string>('05:00');
+  const [endTime, setEndTime] = useState<string>('05:30');
+
+  const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setStartTime(e.target.value);
+  };
+
+  const handleEndTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEndTime(e.target.value);
+  };
+
+  return (
+    <div style={{ backgroundColor: '#C5E3FF', padding: '20px', borderRadius: '10px', color: '#000' }}>
+      <h2 style={{ textAlign: 'center', fontFamily: 'Arial, sans-serif', fontSize:'40px' }}>Hẹn giờ</h2>
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <span style={{ fontSize: '35px', marginRight: '10px' }}>Từ:</span>
+          <input
+            type="time"
+            value={startTime}
+            onChange={handleStartTimeChange}
+            style={{
+              fontSize: '30px',
+              padding: '5px',
+              textAlign: 'center',
+              borderRadius: '5px',
+              marginRight: '20px',
+            }}
+          />
+        </div>
+        <div style={{ fontSize: '35px', marginRight: '10px' }}>|</div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <span style={{ fontSize: '35px', marginRight: '10px' }}>Đến:</span>
+          <input
+            type="time"
+            value={endTime}
+            onChange={handleEndTimeChange}
+            style={{
+              fontSize: '30px',
+              padding: '5px',
+              textAlign: 'center',
+              borderRadius: '5px',
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default TimePicker;
