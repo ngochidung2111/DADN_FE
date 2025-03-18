@@ -1,0 +1,86 @@
+.container {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 20px;
+    width: fit-content;
+    margin: 20px auto;
+    border:1px solid #000000;
+    box-shadow: #000000 0px 0px 5px;
+  }
+  
+  .timeSlotList {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+   
+  }
+  
+  .timeSlot {
+    background-color: #ffffff;
+    color: black;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+   /* Position relative to allow absolute positioning of the button */
+  margin-bottom: 10px;
+
+  }  
+  .timeContainer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  
+  .timeLeft {
+    font-weight: bold;
+    font-size: 30px;
+    text-align: left;
+  }
+  
+  .timeRight {
+    font-weight: bold;
+    font-size: 30px;
+    text-align: right;
+  }
+  
+  .detailsAndDevices {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 5px;
+  }
+  
+  .details {
+    font-size: 14px;
+    color: #777;
+    text-align: left;
+  }
+  
+  .devices {
+    font-style: italic;
+    color: #555;
+    text-align: right;
+  }
+  
+  .separator {
+    border-top: 1px solid #ddd;
+    margin: 0;
+  }
+/* Container for TimeSlot and DeleteButton */
+.timeSlotWithDelete {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;  /* Vertically align TimeSlot and DeleteButton */
+    border-bottom: 1px solid #000000;
+  }
+  
+  /* Style the DeleteButton container */
+  .deleteButtonContainer {
+    margin-left: 10px;  /* Space between TimeSlot and DeleteButton */
+  }
+  .emptyTimeSlot {
+    background-color: #ffffff;
+    min-height: 50px;
+    margin-bottom: 20 px;
+  }
