@@ -1,6 +1,7 @@
 .mainContent {
     display: flex;
     gap: 30px;
+    justify-content: space-between;
     padding: 30px 0 30px 30px;
     margin-left: 50px;
     background-color: #C5E3FF;
@@ -12,6 +13,7 @@
 
 /* Khu vực các thẻ metric (nhiệt độ, độ ẩm, CO2, v.v.) */
 .metricsContainer {
+    /* padding-top: 15px; */
     display: flex;
     flex-direction: column;
     gap: 25px;
@@ -20,11 +22,22 @@
 .metricCard {
     display: flex;
     align-items: center;
+    width: 11vw;
+    height: 15vh;
     gap: 10px;
-    background-color: #f7f7f7;
+    background-color: #ffffff;
     padding: 12px;
     border-radius: 8px;
     box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+.metricCard:hover {
+    transform: scale(1.05);
+}
+
+.selected {
+    background-color: #479be5;
 }
 
 .metricIcon {
@@ -47,26 +60,29 @@
 .chartContainer {
     flex: 1;
     background-color: #fff;
-    height: 94vh;
+    height: 90vh;
+    width: 76vw;
     border-radius: 15px 0 0 15px;
     padding: 0 12px;
-    box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);    
+    box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);
     color: #000;
 }
 
 .chartContainer h3 {
-    margin: 4px 20px 10px 20px;
+    margin: 15px 20px 10px 20px;
     text-align: left;
 }
 
 .chartWrapper {
     background-color: #D7FBDE;
-    padding-top: 20px;
-    margin-left: 20px;
-    width: 96%;
-    border-radius: 8px;
+    padding: 20px;
+    margin: 10px 20px;
+    width: 70vw;
+    height: 68vh;
+    border-radius: 15px;
     box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);
-    display: inline-block;
+    display: flex;
+    align-items: center;
 }
 
 /* Phần lựa chọn tiêu chí */
@@ -99,9 +115,8 @@
 
 /* CSS cho container của legend và button */
 .customLegendContainer {
-    padding: 0 50px 15px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     width: 90%;
 }
@@ -126,20 +141,26 @@
 .buttonContainer {
     text-align: right;
     margin: 0 20px;
+    display: flex;
 }
 
 /* Style cho nút "Xem chi tiết" */
 .detailButton {
     margin-top: 10px;
-    background-color: #479be5;
+    background-color: #63B15E;
     color: #fff;
+    height: 30px;
+    align-items: center;
+    width: 30px;
+    border-radius: -95px;
     border: none;
     padding: 5px 10px;
-    border-radius: 6px;
+    border-radius: 30px;
     cursor: pointer;
     box-shadow: -5px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .detailButton:hover {
     background-color: #0056b3;
+    transform: scale(1.05);
 }
