@@ -18,16 +18,22 @@ const data = [
     { date: '3/3', quality: 50 },
     { date: '3/4', quality: 100 },
     { date: '3/5', quality: 30 },
-    { date: '3/1', quality: 40 },
-    { date: '3/2', quality: 60 },
-    { date: '3/3', quality: 50 },
-    { date: '3/4', quality: 80 },
-    { date: '3/5', quality: 30 },
-    { date: '3/1', quality: 40 },
-    { date: '3/2', quality: 60 },
-    { date: '3/3', quality: 50 },
-    { date: '3/4', quality: 80 },
-    { date: '3/5', quality: 30 },
+    { date: '3/6', quality: 40 },
+    { date: '3/7', quality: 60 },
+    { date: '3/8', quality: 50 },
+    { date: '3/9', quality: 80 },
+    { date: '3/10', quality: 30 },
+    { date: '3/11', quality: 40 },
+    { date: '3/12', quality: 60 },
+    { date: '3/13', quality: 50 },
+    { date: '3/14', quality: 80 },
+    { date: '3/15', quality: 30 },
+    { date: '3/16', quality: 100 },
+    { date: '3/17', quality: 30 },
+    { date: '3/18', quality: 40 },
+    { date: '3/19', quality: 60 },
+    { date: '3/20', quality: 50 },
+
 ];
 
 // Hàm trả về màu dựa trên giá trị của tiêu chí (giống quality)
@@ -72,75 +78,71 @@ const CustomizedLegend: React.FC = () => {
     );
 };
 
+
 const Homepage: React.FC = () => {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
-    // Khởi tạo tiêu chí được chọn, mặc định chọn tiêu chí đầu tiên
     const [selectedCriterion, setSelectedCriterion] = useState(criteria[0]);
+    const [currentIndex, setCurrentIndex] = useState(0);
 
-    // Vì giá trị của các tiêu chí giả sử giống quality nên ta dùng key "quality"
     const selectedDataKey = selectedCriterion.key;
+    const displayedData = data.slice(currentIndex, currentIndex + 7);
+
+    const goToPrevious = () => {
+        if (currentIndex > 0) {
+            setCurrentIndex(currentIndex - 7);
+        }
+    };
+
+    const goToNext = () => {
+        if (currentIndex + 7 < data.length) {
+            setCurrentIndex(currentIndex + 7);
+        }
+    };
+
+    // Function to handle when a criterion is clicked
+    const handleCriterionClick = (criterion: any) => {
+        setSelectedCriterion(criterion);
+    };
 
     return (
         <div className={styles.mainContent}>
             {/* Các chỉ số (metrics) */}
             <div className={styles.metricsContainer}>
-                <div className={styles.metricCard}>
-                    <div className={styles.metricIcon}>🌡</div>
-                    <div className={styles.metricInfo}>
-                        <p>NHIỆT ĐỘ</p>
-                        <h2>37°C</h2>
+                {criteria.map((criterion, index) => (
+                    <div
+                        key={index}
+                        className={`${styles.metricCard} ${selectedCriterion.label === criterion.label ? styles.selected : ''}`}
+                        onClick={() => handleCriterionClick(criterion)}
+                    >
+                        <div className={styles.metricIcon}>
+                            {/* Chọn icon tương ứng cho mỗi tiêu chí */}
+                            {criterion.label === 'NHIỆT ĐỘ' && '🌡️'}
+                            {criterion.label === 'ĐỘ ẨM' && '💧'}
+                            {criterion.label === 'CƯỜNG ĐỘ ÁNH SÁNG' && '☀️'}
+                            {criterion.label === 'CO2' && '🌱'}
+                        </div>
+                        <div className={styles.metricInfo}>
+                            <p>{criterion.label}</p>
+                            <h2>{criterion.label === 'NHIỆT ĐỘ' ? '37°C' :
+                                criterion.label === 'ĐỘ ẨM' ? '37%' :
+                                    criterion.label === 'CƯỜNG ĐỘ ÁNH SÁNG' ? '37cd' : '37%'}</h2>
+                        </div>
                     </div>
-                </div>
-                <div className={styles.metricCard}>
-                    <div className={styles.metricIcon}>💧</div>
-                    <div className={styles.metricInfo}>
-                        <p>ĐỘ ẨM</p>
-                        <h2>37%</h2>
-                    </div>
-                </div>
-                <div className={styles.metricCard}>
-                    <div className={styles.metricIcon}>☀️</div>
-                    <div className={styles.metricInfo}>
-                        <p>CƯỜNG ĐỘ</p>
-                        <p>ÁNH SÁNG</p>
-                        <h2>37cd</h2>
-                    </div>
-                </div>
-                <div className={styles.metricCard}>
-                    <div className={styles.metricIcon}>🌱</div>
-                    <div className={styles.metricInfo}>
-                        <p>CO2</p>
-                        <h2>37%</h2>
-                    </div>
-                </div>
+                ))}
             </div>
 
             {/* Biểu đồ */}
             <div className={styles.chartContainer}>
-                {/* Phần lựa chọn tiêu chí */}
-                <div className={styles.criteriaSelector}>
-                    {criteria.map((criterion) => (
-                        <button
-                            key={criterion.label}
-                            onClick={() => setSelectedCriterion(criterion)}
-                            className={
-                                selectedCriterion.label === criterion.label
-                                    ? styles.selectedCriterion
-                                    : styles.criterionButton
-                            }
-                        >
-                            {criterion.label}
-                        </button>
-                    ))}
-                </div>
                 {/* Tiêu đề biểu đồ cập nhật theo tiêu chí được chọn */}
-                <h3>THỐNG KÊ {selectedCriterion.label} GẦN ĐÂY</h3>
-                {/* Bọc BarChart trong container có nền màu */}
+                <h3 className={styles.chartName}>THỐNG KÊ {selectedCriterion.label} GẦN ĐÂY</h3>
                 <div className={styles.chartWrapper}>
+                    <button className={styles.detailButton} onClick={goToPrevious} disabled={currentIndex === 0}>{"<"}</button>
+
+                    {/* Bọc BarChart trong container có nền màu */}
                     <BarChart
                         width={940}
                         height={350}
-                        data={data}
+                        data={displayedData}
                         margin={{ top: 20, right: 30, left: 20, bottom: 5 }}
                     >
                         <CartesianGrid strokeDasharray="3 3" />
@@ -149,10 +151,10 @@ const Homepage: React.FC = () => {
                         <Tooltip />
                         <Legend content={<CustomizedLegend />} />
                         <Bar dataKey={selectedDataKey} name={selectedCriterion.label} radius={[10, 10, 10, 10]} barSize={20}>
-                            {data.map((entry, index) => (
+                            {displayedData.map((entry, index) => (
                                 <Cell key={`cell-${index}`} fill={getColorByValue(entry[selectedDataKey])} />
                             ))}
-                            {data.map((entry, index) => {
+                            {displayedData.map((entry, index) => {
                                 const baseColor = getColorByValue(entry[selectedDataKey]);
                                 const fillColor = activeIndex === index ? "#000" : baseColor;
                                 return (
@@ -166,11 +168,12 @@ const Homepage: React.FC = () => {
                             })}
                         </Bar>
                     </BarChart>
+
+                    <button className={styles.detailButton} onClick={goToNext} disabled={currentIndex + 7 >= data.length}>{">"}</button>
                 </div>
-                <div className={styles.buttonContainer}>
-                    <button className={styles.detailButton}>Xem chi tiết</button>
-                </div>
+
             </div>
+
         </div>
     );
 };
