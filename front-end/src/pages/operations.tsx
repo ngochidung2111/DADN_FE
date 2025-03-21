@@ -4,9 +4,11 @@ import lightIcon from '../assets/light.png';
 import curtainIcon from '../assets/curtain.png';
 import windowIcon from '../assets/window.png';
 import clockIcon from '../assets/clock.png';
+import Sidebar from '../components/sidebar';
 import './operations.css'; // Import file CSS nếu tách riêng
-import { AlignCenter } from 'lucide-react';
-
+import { toggleMotor } from '../services/toggleMotorApi';
+import { toggleLight } from '../services/toggleLightApi';
+import { toggleServo } from '../services/toggleServoApi';
 interface ToggleSwitchProps {
     label: React.ReactNode; // Sửa từ string sang React.ReactNode để hỗ trợ JSX
     checked: boolean;
@@ -39,6 +41,35 @@ const Operation: React.FC = () => {
     // Nếu dùng react-router, ta có thể điều hướng sang trang khác
     // const navigate = useNavigate();
 
+    const handleToggleLight = async (checked: boolean) => {
+        try {
+          // Call the API to toggle the light. Assume it returns a promise.
+          await toggleLight();
+          setDenPhong(checked);
+        } catch (error) {
+          console.error("Error toggling light:", error);
+          // Optionally show error feedback to the user.
+        }
+      };
+    const handleToggleMotor = async (checked: boolean) => {
+        try {
+          // Call the API to toggle the light. Assume it returns a promise.
+          await toggleMotor();
+          setRemCua(checked);
+        } catch (error) {
+
+        }
+      };
+    
+    const handleToggleServo = async (checked: boolean) => {
+        try {
+          // Call the API to toggle the light. Assume it returns a promise.
+          await toggleServo();
+          setCuaSo(checked);
+        } catch (error) {
+
+        }
+    };
     // Xử lý khi bấm vào nút Cài đặt hẹn giờ
     const handleHenGioClick = () => {
         // Ví dụ: điều hướng sang trang hẹn giờ (nếu đã có route "/hen-gio")
@@ -51,6 +82,7 @@ const Operation: React.FC = () => {
     return (
         <div className="container-operation">
             {/* Bên trái: Thông tin Chất lượng không khí */}
+            <Sidebar isLogin = {true}/>
             <div className="left-panel">
                 <h2>Chất lượng</h2>
                 <h2>không khí</h2>
@@ -101,7 +133,7 @@ const Operation: React.FC = () => {
                         </div>
                     }
                     checked={denPhong}
-                    onChange={setDenPhong}
+                    onChange={handleToggleLight}
                 />
                 <ToggleSwitch label={
                     <div className="label-container">
@@ -114,7 +146,7 @@ const Operation: React.FC = () => {
                     </div>
                 }
                     checked={remCua}
-                    onChange={setRemCua}
+                    onChange={handleToggleMotor}
                 />
                 <ToggleSwitch label={
                     <div className="label-container">
@@ -127,7 +159,7 @@ const Operation: React.FC = () => {
                     </div>
                 }
                     checked={cuaSo}
-                    onChange={setCuaSo}
+                    onChange={handleToggleServo}
                 />
 
                 {/* Nút Cài đặt hẹn giờ (dấu +) */}

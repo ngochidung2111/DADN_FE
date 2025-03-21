@@ -19,7 +19,7 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     position: relative;
     width:450px;
-    height: 180px;
+    height: 240px;
     text-align: center;
     font-family: 'Arial', sans-serif;
     overflow: hidden;
@@ -120,4 +120,54 @@
   }
   .modal.airpollution .fireBackground {
     background-image: url('../assets/air.png'); /* Hình ảnh cảnh báo ô nhiễm */
+  }
+  .tempButton {
+    display: block;
+    margin: 20px auto 0 auto;  /* 20px top, auto sides, 0 bottom */
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #479be5;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .tempButton:hover {
+    background-color: #3a7bd5;
+  }
+  .modal {
+    /* existing styles … */
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    /* maintain your width, height, padding, border-radius, etc. */
+  }
+  
+  .modalContent {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: flex-start;
+    align-items: center;
+    z-index: 2; /* ensure content is above the fire background */
+  }
+  
+  .tempButton {
+    display: block;
+    margin: auto;             /* horizontally center the button */
+    margin-top: auto;         /* push the button to the bottom */
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    background-color: #b31b4e;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    z-index: 5;
+    margin-top: 10px;
+  }
+  
+  .tempButton:hover {
+    background-color: #9a2744;
   }

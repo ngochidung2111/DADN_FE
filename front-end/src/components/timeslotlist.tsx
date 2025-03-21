@@ -94,7 +94,7 @@ const TimeSlotList: React.FC = () => {
     }
   });
 
-  return <div className={styles.container}>{rows}</div>;
+  return <div className={styles.wrapper}>{rows}</div>;
 };
 
 export default TimeSlotList;

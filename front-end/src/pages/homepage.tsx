@@ -11,6 +11,7 @@ import {
 } from 'recharts';
 import styles from './homepage.module.css';
 import Sidebar from '../components/sidebar';
+import Alert from '../components/alert';
 // Dữ liệu mẫu cho biểu đồ (giả sử giá trị giống với quality)
 const data = [
     { date: '3/1', quality: 40 },
@@ -107,6 +108,7 @@ const Homepage: React.FC = () => {
     return (
         <div className={styles.mainContent}>
             {/* Các chỉ số (metrics) */}
+            <Alert type='temperature' value={80} message='Phát hiện nhiệt độ phòng cao bất thương!!!Tự động khởi động hệ thống chữa cháy khẩn cấp' />
             <div className={styles.metricsContainer}>
                 {criteria.map((criterion, index) => (
                     <div
