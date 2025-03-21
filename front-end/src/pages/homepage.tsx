@@ -12,6 +12,7 @@ import {
 import styles from './homepage.module.css';
 import Sidebar from '../components/sidebar';
 
+
 // Dữ liệu mặc định ban đầu (có thể thay đổi khi nhận dữ liệu từ WebSocket)
 const initialData = [
     { date: '3/1', quality: 40 },
@@ -136,6 +137,7 @@ const Homepage: React.FC = () => {
     return (
         <div className={styles.mainContent}>
             {/* Các chỉ số (metrics) */}
+            <Alert type='temperature' value={80} message='Phát hiện nhiệt độ phòng cao bất thương!!!Tự động khởi động hệ thống chữa cháy khẩn cấp' />
             <div className={styles.metricsContainer}>
                 {criteria.map((criterion, index) => (
                     <div

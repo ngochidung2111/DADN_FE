@@ -1,7 +1,7 @@
 // src/components/FireAlert.tsx
 import React, { useState } from "react";
 import styles from './alert.module.css'; // Import CSS module
-
+import { turnOffFireAlarm } from '../services/toggleFireDetectionApi'; // Import API service
 interface AlertProps {
   value: number;   // Giá trị (nhiệt độ hoặc độ ẩm)
   message: string; // Thông điệp cảnh báo
@@ -26,7 +26,15 @@ const Alert: React.FC<AlertProps> = ({ value, message, type }) => {
                       type === 'airpollution' ? `${styles.modal} ${styles.airpollution}` : 
                       `${styles.modal} ${styles.temperature}`;
 
-
+  const handleTempAction = async() => {
+    try {
+      await turnOffFireAlarm();
+      handleClose();
+    } catch (error) {
+      console.error("Error turning off fire alarm:", error);
+      // Optionally show error feedback to the user.
+    }
+  };
   return (
     <div className={styles.modalOverlay}>
       <div className={modalClass}>
@@ -35,6 +43,11 @@ const Alert: React.FC<AlertProps> = ({ value, message, type }) => {
         <div className={styles.messageWrapper}>
           <div className={styles.message}>{message}</div>
         </div>
+        {type === "temperature" && (
+          <button className={styles.tempButton} onClick={handleTempAction}>
+            Tắt hệ thống báo cháy
+          </button>
+        )}
         <div className={styles.fireBackground}></div>
       </div>
     </div>

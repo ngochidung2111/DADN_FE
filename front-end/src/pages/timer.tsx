@@ -4,7 +4,7 @@ import ToggleList from '../components/togglelist';
 import TimeSlotList from '../components/timeslotlist';
 import Sidebar from '../components/sidebar';
 import TimePicker from '../components/timepicker';
-import styles from './Timer.module.css';
+import styles from './timer.module.css';
 
 const TimerPage: React.FC = () => {
     return (
