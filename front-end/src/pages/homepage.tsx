@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     BarChart,
     Bar,
@@ -11,30 +11,17 @@ import {
 } from 'recharts';
 import styles from './homepage.module.css';
 import Sidebar from '../components/sidebar';
-import Alert from '../components/alert';
-// Dữ liệu mẫu cho biểu đồ (giả sử giá trị giống với quality)
-const data = [
-    { date: '3/1', quality: 40 },
-    { date: '3/2', quality: 60 },
-    { date: '3/3', quality: 50 },
-    { date: '3/4', quality: 100 },
-    { date: '3/5', quality: 30 },
-    { date: '3/6', quality: 40 },
-    { date: '3/7', quality: 60 },
-    { date: '3/8', quality: 50 },
-    { date: '3/9', quality: 80 },
-    { date: '3/10', quality: 30 },
-    { date: '3/11', quality: 40 },
-    { date: '3/12', quality: 60 },
-    { date: '3/13', quality: 50 },
-    { date: '3/14', quality: 80 },
-    { date: '3/15', quality: 30 },
-    { date: '3/16', quality: 100 },
-    { date: '3/17', quality: 30 },
-    { date: '3/18', quality: 40 },
-    { date: '3/19', quality: 60 },
-    { date: '3/20', quality: 50 },
 
+
+// Dữ liệu mặc định ban đầu (có thể thay đổi khi nhận dữ liệu từ WebSocket)
+const initialData = [
+    { date: '3/1', quality: 40 },
+    { date: '3/1', quality: 70 },
+    { date: '3/1', quality: 20 },
+    { date: '3/1', quality: 100 },
+    { date: '3/1', quality: 30 },
+    { date: '3/1', quality: 40 },
+    { date: '3/1', quality: 60 },
 ];
 
 // Hàm trả về màu dựa trên giá trị của tiêu chí (giống quality)
@@ -47,14 +34,6 @@ const getColorByValue = (value: number) => {
         return '#F57F7F'; // đỏ (Kém)
     }
 };
-
-// Danh sách tiêu chí
-const criteria = [
-    { label: 'NHIỆT ĐỘ', key: 'quality' },
-    { label: 'ĐỘ ẨM', key: 'quality' },
-    { label: 'CƯỜNG ĐỘ ÁNH SÁNG', key: 'quality' },
-    { label: 'CO2', key: 'quality' },
-];
 
 // Component legend tùy chỉnh gồm các ô màu và chú thích
 const CustomizedLegend: React.FC = () => {
@@ -81,9 +60,59 @@ const CustomizedLegend: React.FC = () => {
 
 
 const Homepage: React.FC = () => {
+    // State chứa dữ liệu biểu đồ
+    const [data, setData] = useState(initialData);
+
+    // State chứa dữ liệu cảm biến nhận từ websocket
+    const [sensorData, setSensorData] = useState({
+        temperature: 0,
+        humidity: 0,
+        light: 0,
+        airQuality: 0,
+    });
+
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+    // Cập nhật tiêu chí với key tương ứng với dữ liệu cảm biến
+    const criteria = [
+        { label: 'NHIỆT ĐỘ', key: 'temperature' },
+        { label: 'ĐỘ ẨM', key: 'humidity' },
+        { label: 'CƯỜNG ĐỘ ÁNH SÁNG', key: 'light' },
+        { label: 'CO2', key: 'airQuality' },
+    ];
+
     const [selectedCriterion, setSelectedCriterion] = useState(criteria[0]);
+
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    // Kết nối WebSocket để nhận dữ liệu cảm biến thời gian thực
+    useEffect(() => {
+        const ws = new WebSocket('wss://iot-project-y7dx.onrender.com/ws/data');
+
+        ws.onopen = () => {
+            console.log('Connected to WebSocket');
+        };
+
+        ws.onmessage = (event) => {
+            // Dữ liệu nhận về dạng JSON: {"temperature":3.14,"humidity":60.3,"light":70,"airQuality":0.0}
+            const sensor = JSON.parse(event.data);
+            console.log('Received sensor data:', sensor);
+            setSensorData(sensor);
+        };
+
+        ws.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+
+        ws.onclose = () => {
+            console.log('WebSocket connection closed');
+        };
+
+        return () => {
+            ws.close();
+        };
+    }, []);
+
 
     const selectedDataKey = selectedCriterion.key;
     const displayedData = data.slice(currentIndex, currentIndex + 7);
@@ -125,9 +154,17 @@ const Homepage: React.FC = () => {
                         </div>
                         <div className={styles.metricInfo}>
                             <p>{criterion.label}</p>
-                            <h2>{criterion.label === 'NHIỆT ĐỘ' ? '37°C' :
-                                criterion.label === 'ĐỘ ẨM' ? '37%' :
-                                    criterion.label === 'CƯỜNG ĐỘ ÁNH SÁNG' ? '37cd' : '37%'}</h2>
+                            <h2>
+                                {criterion.label === 'NHIỆT ĐỘ'
+                                    ? `${sensorData.temperature}°C`
+                                    : criterion.label === 'ĐỘ ẨM'
+                                        ? `${sensorData.humidity}%`
+                                        : criterion.label === 'CƯỜNG ĐỘ ÁNH SÁNG'
+                                            ? `${sensorData.light}cd`
+                                            : criterion.label === 'CO2'
+                                                ? `${sensorData.airQuality}%`
+                                                : ''}
+                            </h2>
                         </div>
                     </div>
                 ))}

@@ -1,23 +1,16 @@
 /* operation.css */
 
-/* Reset mặc định và font */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    background-color: #C5E3FF;
-}
-
 /* Container tổng, chứa 2 panel trái/phải */
 .container-operation {
     display: flex;
-    width: 100%;
+    width: 92vw;
+    height: 89vh;
     justify-content: space-between;
     align-items: center;
     gap: 6vw;
-    padding: 30px 50px 30px 50px;
+    padding: 30px 52px 30px 50px;
+    background-color: #C5E3FF;
     color: #000;
-
 }
 
 /* Panel bên trái (Chất lượng không khí) */

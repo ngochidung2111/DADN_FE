@@ -21,8 +21,8 @@ const Login = () => {
             <div className={styles.formContainer}>
                 <form onSubmit={handleSubmit}>
                     <div className={styles.formGroup}>
-                        <label htmlFor="name">Name:</label>
-                        <input
+                        <label className={styles.labelInput} htmlFor="name">Name:</label>
+                        <input className={styles.loginInput}
                             type="text"
                             id="name"
                             value={name}
@@ -31,8 +31,8 @@ const Login = () => {
                         />
                     </div>
                     <div className={styles.formGroup}>
-                        <label htmlFor="phone">Phone:</label>
-                        <input
+                        <label className={styles.labelInput} htmlFor="phone">Phone:</label>
+                        <input className={styles.loginInput}
                             type="text"
                             id="phone"
                             value={phone}
@@ -41,8 +41,8 @@ const Login = () => {
                         />
                     </div>
                     <div className={styles.formGroup}>
-                        <label htmlFor="password">Password:</label>
-                        <input
+                        <label className={styles.labelInput} htmlFor="password">Password:</label>
+                        <input className={styles.loginInput}
                             type="password"
                             id="password"
                             value={password}

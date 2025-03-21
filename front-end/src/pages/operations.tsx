@@ -9,6 +9,8 @@ import './operations.css'; // Import file CSS nếu tách riêng
 import { toggleMotor } from '../services/toggleMotorApi';
 import { toggleLight } from '../services/toggleLightApi';
 import { toggleServo } from '../services/toggleServoApi';
+import styles from './operations.module.css'; // Import file CSS nếu tách riêng
+
 interface ToggleSwitchProps {
     label: React.ReactNode; // Sửa từ string sang React.ReactNode để hỗ trợ JSX
     checked: boolean;
@@ -18,15 +20,15 @@ interface ToggleSwitchProps {
 // Component ToggleSwitch để tạo nút bật/tắt
 const ToggleSwitch: React.FC<ToggleSwitchProps> = ({ label, checked, onChange }) => {
     return (
-        <div className="toggle-container">
+        <div className={styles['toggle-container']}>
             <span>{label}</span>
-            <label className="switch">
+            <label className={styles.switch}>
                 <input
                     type="checkbox"
                     checked={checked}
                     onChange={(e) => onChange(e.target.checked)}
                 />
-                <span className="slider round"></span>
+                <span className={`${styles.slider} ${styles.round}`}></span>
             </label>
         </div>
     );
@@ -80,50 +82,50 @@ const Operation: React.FC = () => {
     };
 
     return (
-        <div className="container-operation">
+        <div className={styles['container-operation']}>
             {/* Bên trái: Thông tin Chất lượng không khí */}
             <Sidebar isLogin = {true}/>
-            <div className="left-panel">
+            <div className={styles['left-panel']}>
                 <h2>Chất lượng</h2>
                 <h2>không khí</h2>
-                <div className="cards">
-                    <div className="card">
-                        <div className="icon">🌡️</div>
-                        <div className="info">
+                <div className={styles.cards}>
+                    <div className={styles.card}>
+                        <div className={styles.icon}>🌡️</div>
+                        <div className={styles.info}>
                             <span>Nhiệt độ</span>
-                            <span className="value">37°C</span>
+                            <span className={styles.value}>37°C</span>
                         </div>
                     </div>
-                    <div className="card">
-                        <div className="icon">💧</div>
-                        <div className="info">
+                    <div className={styles.card}>
+                        <div className={styles.icon}>💧</div>
+                        <div className={styles.info}>
                             <span>Độ ẩm</span>
-                            <span className="value">37%</span>
+                            <span className={styles.value}>37%</span>
                         </div>
                     </div>
-                    <div className="card">
-                        <div className="icon">☀️</div>
-                        <div className="info">
+                    <div className={styles.card}>
+                        <div className={styles.icon}>☀️</div>
+                        <div className={styles.info}>
                             <span>Nhiệt độ</span>
-                            <span className="value">37°C</span>
+                            <span className={styles.value}>37°C</span>
                         </div>
                     </div>
-                    <div className="card">
-                        <div className="co2-icon">CO₂</div>
-                        <div className="info">
+                    <div className={styles.card}>
+                        <div className={styles['co2-icon']}>CO₂</div>
+                        <div className={styles.info}>
                             <span>Nồng độ CO₂</span>
-                            <span className="value">37</span>
+                            <span className={styles.value}>37</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Bên phải: Trợ năng */}
-            <div className="right-panel">
+            <div className={styles['right-panel']}>
                 <h3>Trợ năng</h3>
                 <ToggleSwitch
                     label={
-                        <div className="label-container">
+                        <div className={styles['label-container']}>
                             <img
                                 src={lightIcon}
                                 alt="Light"
@@ -136,7 +138,7 @@ const Operation: React.FC = () => {
                     onChange={handleToggleLight}
                 />
                 <ToggleSwitch label={
-                    <div className="label-container">
+                    <div className={styles['label-container']}>
                         <img
                             src={curtainIcon}
                             alt="Curtain"
@@ -149,7 +151,7 @@ const Operation: React.FC = () => {
                     onChange={handleToggleMotor}
                 />
                 <ToggleSwitch label={
-                    <div className="label-container">
+                    <div className={styles['label-container']}>
                         <img
                             src={windowIcon}
                             alt="Window"
@@ -163,8 +165,8 @@ const Operation: React.FC = () => {
                 />
 
                 {/* Nút Cài đặt hẹn giờ (dấu +) */}
-                <div className="hen-gio-container">
-                    <div className="label-container">
+                <div className={styles['hen-gio-container']}>
+                    <div className={styles['label-container']}>
                         <img
                             src={clockIcon}
                             alt="Clock"
@@ -172,7 +174,7 @@ const Operation: React.FC = () => {
                         />
                         <span>Cài đặt hẹn giờ</span>
                     </div>
-                    <button className="hen-gio-button" onClick={handleHenGioClick}>
+                    <button className={styles['hen-gio-button']} onClick={handleHenGioClick}>
                         +
                     </button>
                 </div>
