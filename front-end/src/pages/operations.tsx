@@ -4,7 +4,6 @@ import curtainIcon from '../assets/curtain.png';
 import windowIcon from '../assets/window.png';
 import clockIcon from '../assets/clock.png';
 import Sidebar from '../components/sidebar';
-import './operations.css'; // Import file CSS nếu tách riêng
 import { toggleMotor } from '../services/toggleMotorApi';
 import { toggleLight } from '../services/toggleLightApi';
 import { toggleServo } from '../services/toggleServoApi';

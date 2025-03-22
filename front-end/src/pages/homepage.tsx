@@ -39,7 +39,7 @@ const getColorByValue = (value: number) => {
 const CustomizedLegend: React.FC = () => {
     return (
         <div className={styles.customLegendContainer}>
-            <Sidebar />
+            <Sidebar isLogin = {true}/>
             <div className={styles.customLegend}>
                 <span>
                     <span className={styles.legendColorBox} style={{ backgroundColor: '#63B15E' }}></span>
@@ -137,7 +137,13 @@ const Homepage: React.FC = () => {
     return (
         <div className={styles.mainContent}>
             {/* Các chỉ số (metrics) */}
-            <Alert type='temperature' value={80} message='Phát hiện nhiệt độ phòng cao bất thương!!!Tự động khởi động hệ thống chữa cháy khẩn cấp' />
+            {/* {sensorData.temperature >20 && (
+            <Alert
+                value={sensorData.temperature}
+                message="Nhiệt độ vượt quá mức cho phép, hãy kiểm tra hệ thống!"
+                type="temperature"
+            />
+        )} */}
             <div className={styles.metricsContainer}>
                 {criteria.map((criterion, index) => (
                     <div

@@ -13,8 +13,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Homepage />} />
         <Route path="/timerpage" element={<TimerPage />} />
-          <Route path='/login' element={<Login />} /> 
-          <Route path='/operations' element={<Operations />} />
+        <Route path='/login' element={<Login />} /> 
+        <Route path='/operations' element={<Operations />} />
         {/* You can add more routes here */}
       </Routes>
     </Router>
