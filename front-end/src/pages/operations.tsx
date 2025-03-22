@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-// import { useNavigate } from 'react-router-dom'; // Nếu bạn dùng react-router-dom
+import React, { useState, useEffect } from 'react';
 import lightIcon from '../assets/light.png';
 import curtainIcon from '../assets/curtain.png';
 import windowIcon from '../assets/window.png';
@@ -40,8 +39,41 @@ const Operation: React.FC = () => {
     const [remCua, setRemCua] = useState(false);
     const [cuaSo, setCuaSo] = useState(false);
 
-    // Nếu dùng react-router, ta có thể điều hướng sang trang khác
-    // const navigate = useNavigate();
+    // State chứa dữ liệu cảm biến nhận từ websocket
+    const [sensorData, setSensorData] = useState({
+        temperature: 0,
+        humidity: 0,
+        light: 0,
+        airQuality: 0,
+    });
+
+    // Kết nối WebSocket để nhận dữ liệu cảm biến thời gian thực
+    useEffect(() => {
+        const ws = new WebSocket('wss://iot-project-y7dx.onrender.com/ws/data');
+
+        ws.onopen = () => {
+            console.log('Connected to WebSocket');
+        };
+
+        ws.onmessage = (event) => {
+            // Dữ liệu nhận về dạng JSON: {"temperature":3.14,"humidity":60.3,"light":70,"airQuality":0.0}
+            const sensor = JSON.parse(event.data);
+            console.log('Received sensor data:', sensor);
+            setSensorData(sensor);
+        };
+
+        ws.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+
+        ws.onclose = () => {
+            console.log('WebSocket connection closed');
+        };
+
+        return () => {
+            ws.close();
+        };
+    }, []);
 
     const handleToggleLight = async (checked: boolean) => {
         try {
@@ -93,28 +125,28 @@ const Operation: React.FC = () => {
                         <div className={styles.icon}>🌡️</div>
                         <div className={styles.info}>
                             <span>Nhiệt độ</span>
-                            <span className={styles.value}>37°C</span>
+                            <span className={styles.value}>{sensorData.temperature}°C</span>
                         </div>
                     </div>
                     <div className={styles.card}>
                         <div className={styles.icon}>💧</div>
                         <div className={styles.info}>
                             <span>Độ ẩm</span>
-                            <span className={styles.value}>37%</span>
+                            <span className={styles.value}>{sensorData.humidity}%</span>
                         </div>
                     </div>
                     <div className={styles.card}>
                         <div className={styles.icon}>☀️</div>
                         <div className={styles.info}>
-                            <span>Nhiệt độ</span>
-                            <span className={styles.value}>37°C</span>
+                            <span>Ánh sáng</span>
+                            <span className={styles.value}>{sensorData.light} lux</span>
                         </div>
                     </div>
                     <div className={styles.card}>
                         <div className={styles['co2-icon']}>CO₂</div>
                         <div className={styles.info}>
                             <span>Nồng độ CO₂</span>
-                            <span className={styles.value}>37</span>
+                            <span className={styles.value}>{sensorData.airQuality}</span>
                         </div>
                     </div>
                 </div>
