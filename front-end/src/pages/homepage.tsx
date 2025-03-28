@@ -14,15 +14,15 @@ import Sidebar from '../components/sidebar';
 
 
 // Dữ liệu mặc định ban đầu (có thể thay đổi khi nhận dữ liệu từ WebSocket)
-// const initialData = [
-//     { date: '3/1', quality: 40 },
-//     { date: '3/1', quality: 70 },
-//     { date: '3/1', quality: 20 },
-//     { date: '3/1', quality: 100 },
-//     { date: '3/1', quality: 30 },
-//     { date: '3/1', quality: 40 },
-//     { date: '3/1', quality: 60 },
-// ];
+const initialData = [
+    { date: '3/1', quality: 40 },
+    { date: '3/1', quality: 70 },
+    { date: '3/1', quality: 20 },
+    { date: '3/1', quality: 100 },
+    { date: '3/1', quality: 30 },
+    { date: '3/1', quality: 40 },
+    { date: '3/1', quality: 60 },
+];
 
 // Hàm trả về màu dựa trên giá trị của tiêu chí (giống quality)
 const getColorByValue = (value: number) => {
@@ -61,8 +61,8 @@ const CustomizedLegend: React.FC = () => {
 
 const Homepage: React.FC = () => {
     // State chứa dữ liệu biểu đồ
-    // const [data, setData] = useState(initialData);
-    const [data] = useState<any[]>([]);
+    const [data] = useState(initialData);
+
     // State chứa dữ liệu cảm biến nhận từ websocket
     const [sensorData, setSensorData] = useState({
         temperature: 0,
