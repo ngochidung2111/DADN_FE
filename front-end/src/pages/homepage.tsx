@@ -12,9 +12,13 @@ import {
 import styles from './homepage.module.css';
 import Sidebar from '../components/sidebar';
 
-
+interface ChartData {
+    date: string;
+    quality: number;
+    [key: string]: any; // Allow additional properties with any type
+  }
 // Dữ liệu mặc định ban đầu (có thể thay đổi khi nhận dữ liệu từ WebSocket)
-const initialData = [
+const initialData: ChartData[] = [
     { date: '3/1', quality: 40 },
     { date: '3/1', quality: 70 },
     { date: '3/1', quality: 20 },
