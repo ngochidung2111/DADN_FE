@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Switch from "./switch"; // Import switch của bạn
-import styles from "./ToggleList.module.css";
+import styles from "./togglelist.module.css";
 import bulbIcon from "../assets/bulb.png";
 import curtainIcon from "../assets/curtain.png";
 import windowIcon from "../assets/window.png";
