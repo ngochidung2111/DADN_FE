@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './TimeSlotList.module.css';
+import styles from './timeSlotList.module.css';
 import DeleteButton from './deletebutton';
 
 type TimeSlotProps = {
