@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FaHome, FaCircle, FaCog, FaBars } from 'react-icons/fa';
 import { IoPersonSharp } from "react-icons/io5";
-import styles from './Sidebar.module.css';
+import styles from './sidebar.module.css';
 import { useNavigate } from 'react-router-dom';
 
 interface SidebarProps {
