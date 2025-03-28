@@ -15,7 +15,7 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
   endTime = '',
   days = '',
   devices = [],
-  onDelete,
+  
 }) => {
   return (
     <div className={styles.timeSlot}>
@@ -34,6 +34,7 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
           ))}
         </div>
       </div>
+      
     </div>
   );
 };

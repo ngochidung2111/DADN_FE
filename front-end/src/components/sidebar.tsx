@@ -3,7 +3,6 @@ import { FaHome, FaCircle, FaCog, FaBars } from 'react-icons/fa';
 import { IoPersonSharp } from "react-icons/io5";
 import styles from './Sidebar.module.css';
 import { useNavigate } from 'react-router-dom';
-// import Person from '../assets/person.png';
 
 interface SidebarProps {
   isLogin: boolean;
@@ -21,7 +20,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
   const handleNavigate = (path: string) => {
     navigate(path);
   };
-
 
   return (
     <div className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>

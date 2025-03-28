@@ -4,7 +4,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  height: 100vh;
+
+  min-height: 100vh;
   width: 50px;
   background-color: #2f3136;
   /* Sử dụng flex-direction cột, nhưng căn lề trái để icon cố định */
@@ -114,53 +115,59 @@
 .sidebar:hover .labelperson {
   opacity: 1;
 }
-/* Media query cho màn hình nhỏ */
+/* For screens smaller than 768px, expand the sidebar width without repositioning it *//* Sidebar.module.css */
+/* Media query cho các màn hình nhỏ hơn 768px */
 @media (max-width: 768px) {
   .sidebar {
- 
-  }
-
-  .sidebar.open {
-    width: 200px;
-  }
-
-  .icon {
-    margin: 10px;
-  }
-}
-@media (min-width: 1600px) {
-  .sidebar {
-    
+    width: 60px; /* Giảm chiều rộng sidebar */
+    transition: width 0.3s ease-in;
   }
 
   .sidebar:hover {
-    
+    width: 150px; /* Tăng chiều rộng khi hover */
   }
 
+  .iconWrapper {
+    width: 60px;
+  }
 
+  .iconWrapper:hover {
+    width: 150px;
+  }
+
+  .label {
+    opacity: 0;
+  }
+
+  .iconperson {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    bottom: 0;
+  }
+
+  .labelperson {
+    opacity: 0;
+  }
 }
-/* Media query cho màn hình nhỏ */
-@media (max-width: 768px) {
-  .sidebar {
- 
-  }
 
-  .sidebar.open {
-    width: 200px;
-  }
-
-  .icon {
-    margin: 10px;
-  }
-}
-@media (min-width: 1600px) {
+/* Media query cho các màn hình cực kỳ nhỏ (dưới 480px) */
+@media (max-width: 480px) {
   .sidebar {
-    
+    width: 50px; /* Giảm độ rộng thêm một chút nếu màn hình quá nhỏ */
   }
 
   .sidebar:hover {
-    
+    width: 120px; /* Mở rộng khi hover nhưng giới hạn độ rộng */
   }
 
+  .iconWrapper {
+    width: 50px;
+  }
 
+  .iconWrapper:hover {
+    width: 120px;
+  }
 }

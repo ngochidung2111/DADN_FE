@@ -1,4 +1,3 @@
-import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import TimerPage from './pages/timer';
 import Homepage from './pages/homepage';
