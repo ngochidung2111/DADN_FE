@@ -7,6 +7,7 @@ import Sidebar from '../components/sidebar';
 import { toggleMotor } from '../services/toggleMotorApi';
 import { toggleLight } from '../services/toggleLightApi';
 import { toggleServo } from '../services/toggleServoApi';
+import { useNavigate } from 'react-router-dom';
 import styles from './operations.module.css'; // Import file CSS nếu tách riêng
 
 interface ToggleSwitchProps {
@@ -45,6 +46,7 @@ const Operation: React.FC = () => {
         light: 0,
         airQuality: 0,
     });
+    const navigate = useNavigate();
 
     // Kết nối WebSocket để nhận dữ liệu cảm biến thời gian thực
     useEffect(() => {
@@ -107,7 +109,7 @@ const Operation: React.FC = () => {
     const handleHenGioClick = () => {
         // Ví dụ: điều hướng sang trang hẹn giờ (nếu đã có route "/hen-gio")
         // navigate('/hen-gio');
-
+        navigate('/timerpage'); // Chuyển sang trang hẹn giờ (timer)
         // Hoặc tạm thời chỉ in ra console
         console.log("Chuyển qua giao diện cài đặt hẹn giờ (chưa hiện thực)");
     };
