@@ -76,7 +76,7 @@ const Homepage: React.FC = () => {
 
     const [selectedCriterion, setSelectedCriterion] = useState(criteria[0]);
 
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const [currentIndex] = useState(0);
     const [weekType, setWeekType] = useState(0); // Tuần hiện tại
     // Hàm gọi API để lấy dữ liệu thống kê trung bình theo tuần
     const fetchWeeklyAverage = async (weekType: number = 0) => {
