@@ -19,16 +19,43 @@ interface ChartData {
 }
 
 // Hàm trả về màu dựa trên giá trị của tiêu chí (giống quality)
-const getColorByValue = (value: number) => {
-    if (value < 40) {
-        return '#63B15E'; // xanh lá (Tốt)
-    } else if (value < 70) {
-        return '#FBA669'; // cam (Trung bình)
-    } else {
-        return '#F57F7F'; // đỏ (Kém)
-    }
-};
 
+const getColorByValue = (value: number, selectedDataKey: string) => {
+    if (selectedDataKey === 'temperature') {
+        if (value < 30) {
+            return '#63B15E'; // xanh lá (Tốt)
+        } else if (value < 50) {
+            return '#FBA669'; // cam (Trung bình)
+        } else {
+            return '#F57F7F'; // đỏ (Kém)
+        }
+    } else if (selectedDataKey === 'humidity') {
+        if (value < 40) {
+            return '#F57F7F'; // đỏ (Kém)
+        } else if (value < 70) {
+            return '#FBA669'; // cam (Trung bình)
+        } else {
+            return '#63B15E'; // xanh lá (Tốt)
+        }
+    } else if (selectedDataKey === 'light') {
+        if (value < 30) {
+            return '#F57F7F'; // đỏ (Kém)
+        } else if (value < 70) {
+            return '#FBA669'; // cam (Trung bình)
+        } else {
+            return '#63B15E'; // xanh lá (Tốt)
+        }
+    } else if (selectedDataKey === 'airQuality') {
+        if (value < 50) {
+            return '#63B15E'; // xanh lá (Tốt)
+        } else if (value < 100) {
+            return '#FBA669'; // cam (Trung bình)
+        } else {
+            return '#F57F7F'; // đỏ (Kém)
+        }
+    }
+    return '#000'; // Default color if no matching key
+};
 // Component legend tùy chỉnh gồm các ô màu và chú thích
 const CustomizedLegend: React.FC = () => {
     return (
@@ -98,11 +125,13 @@ const Homepage: React.FC = () => {
             console.error('Error fetching weekly data:', error);
         }
     };
-    
+    useEffect(() => {
+        // Chỉ gọi API khi selectedCriterion thay đổi
+        fetchWeeklyAverage(weekType);
+    }, [selectedCriterion, weekType]);
 
     useEffect(() => {
-        // Gọi API cho tuần hiện tại (weekType = 0) mặc định
-       fetchWeeklyAverage(weekType);  // Gọi API với tham số weekType mặc định là 0
+        
 
         // Cập nhật dữ liệu WebSocket
         const ws = new WebSocket('wss://iot-project-y7dx.onrender.com/ws/data');
@@ -135,7 +164,7 @@ const Homepage: React.FC = () => {
             ws.close();
         };
     }, []);
-
+  
     const selectedDataKey = selectedCriterion.key;
     const displayedData = data.slice(currentIndex, currentIndex + 7);
 
@@ -158,7 +187,8 @@ const Homepage: React.FC = () => {
     // Function to handle when a criterion is clicked
     const handleCriterionClick = (criterion: any) => {
         setSelectedCriterion(criterion);
-        fetchWeeklyAverage(currentIndex);
+     
+       
     };
 
     return (
@@ -210,10 +240,10 @@ const Homepage: React.FC = () => {
     <Legend content={<CustomizedLegend />} />
     <Bar dataKey="value" name={selectedCriterion.label} radius={[10, 10, 10, 10]} barSize={20}>
         {displayedData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={getColorByValue(entry.value)} />
+            <Cell key={`cell-${index}`} fill={getColorByValue(entry.value, selectedDataKey)} />
         ))}
         {displayedData.map((entry, index) => {
-            const baseColor = getColorByValue(entry.value);
+            const baseColor = getColorByValue(entry.value, selectedDataKey);
             const fillColor = activeIndex === index ? "#000" : baseColor;
             return (
                 <Cell
