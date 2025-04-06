@@ -61,7 +61,7 @@ const CustomizedLegend: React.FC = () => {
     return (
         <div className={styles.customLegendContainer}>
             <Sidebar isLogin={true} />
-            <div className={styles.customLegend}>
+            {/* <div className={styles.customLegend}>
                 <span>
                     <span className={styles.legendColorBox} style={{ backgroundColor: '#63B15E' }}></span>
                     TỐT
@@ -74,7 +74,7 @@ const CustomizedLegend: React.FC = () => {
                     <span className={styles.legendColorBox} style={{ backgroundColor: '#F57F7F' }}></span>
                     KÉM
                 </span>
-            </div>
+            </div> */}
         </div>
     );
 };
