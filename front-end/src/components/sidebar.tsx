@@ -127,7 +127,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
                     <input type="text" placeholder="Nhập userkey" />
                   </div>
                   <button type="submit">Lưu</button>
-                  <button type="button" onClick={closeForm}>Đóng</button>
                 </form>
               </div>
             )}
@@ -144,7 +143,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
                     <input type="text" placeholder="Nhập name" />
                   </div>
                   <button type="submit">Lưu</button>
-                  <button type="button" onClick={closeForm}>Đóng</button>
                 </form>
               </div>
             )}
@@ -157,7 +155,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
                     <input type="text" placeholder="Nhập dữ liệu cảm biến" />
                   </div>
                   <button type="submit">Lưu</button>
-                  <button type="button" onClick={closeForm}>Đóng</button>
                 </form>
               </div>
             )}

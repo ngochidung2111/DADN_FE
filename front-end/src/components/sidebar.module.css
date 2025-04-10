@@ -271,11 +271,21 @@
   padding: 0.5rem;
   box-sizing: border-box;
   border-radius: 10px;
-
+  border: 0px;
 }
 
 form button {
-  margin-right: 0.5rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  border-radius: 10px;
+  border: 0px;
+  background-color: #9EC8FF;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+form button:hover {
+  background-color: #516bd1;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
 }
