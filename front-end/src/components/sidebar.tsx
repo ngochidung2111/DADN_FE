@@ -12,19 +12,26 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
+
+  const toggleSettings = () => {
+    setIsSettingsOpen(!isSettingsOpen);
+  };
   const navigate = useNavigate();
-  
+
   const handleNavigate = (path: string) => {
     navigate(path);
+    setIsSettingsOpen(false);
   };
 
 
   return (
-    <div className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
+    <div className={`${styles.sidebar} ${(isOpen || isSettingsOpen) ? styles.open : ''}`}>
       <div className={styles.icon} onClick={toggleSidebar}>
         <FaBars size={24} />
       </div>
@@ -42,12 +49,43 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
                 <IoPersonSharp size={24} />
               </div>
               <span className={styles.label}>Trợ năng</span>
-            </div>  
-            <div className={styles.iconWrapper}>
-              <div className={styles.icon1}>
-                <FaCog size={24} />
+            </div>
+            {/* Wrapper bao quanh nút "Cài đặt" và dropdown options */}
+            <div
+              className={styles.settingsWrapper}
+              onMouseEnter={() => setIsSettingsOpen(true)}
+              onMouseLeave={() => setIsSettingsOpen(false)}
+              onClick={() => setIsSettingsOpen(true)} // Khi click, hiển thị dropdown
+            >
+              <div className={styles.iconWrapper} onClick={toggleSettings}>
+                <div className={styles.icon1}>
+                  <FaCog size={24} />
+                </div>
+                <span className={styles.label}>Cài đặt</span>
               </div>
-              <span className={styles.label}>Cài đặt</span>
+              {/* Dropdown các option của Cài đặt */}
+              {isSettingsOpen && (
+                <div className={styles.settingsDropdown}>
+                  <div
+                    className={styles.dropdownItem}
+                    onClick={() => handleNavigate('/account-config')}
+                  >
+                    Cấu hình tài khoản
+                  </div>
+                  <div
+                    className={styles.dropdownItem}
+                    onClick={() => handleNavigate('/add-device')}
+                  >
+                    Thêm thiết bị
+                  </div>
+                  <div
+                    className={styles.dropdownItem}
+                    onClick={() => handleNavigate('/add-sensor')}
+                  >
+                    Thêm cảm biến
+                  </div>
+                </div>
+              )}
             </div>
           </>
         )}
