@@ -1,6 +1,6 @@
 .timerPage {
     display: flex;
-    width: 100vw;
+    min-width: 100vw;
     min-height: 100vh;
     background-color: #C5E3FF; /* Light blue background */
 }
@@ -116,5 +116,40 @@
   .rightSection {
     width: 100%;
     margin-left: 0;
+  }
+}
+
+/* Media query cho màn hình nhỏ (iPhone SE) */
+@media (max-width: 375px) {
+  .timerSection {
+      flex-direction: column; /* Chuyển từ layout ngang sang dọc */
+  }
+
+  .leftSection,
+  .rightSection {
+      width: 100%;
+      margin-left: 0;
+  }
+
+  .timeslot {
+      transform: scale(1); /* Điều chỉnh lại tỷ lệ cho vừa với màn hình nhỏ */
+  }
+
+  .timeslotListHeader {
+      font-size: 28px; /* Giảm kích thước header */
+  }
+
+  .tabWrapper {
+      margin-left: 0;
+      transform: scale(1); /* Bỏ scale tab */
+  }
+
+  .labelText {
+      font-size: 18px; /* Giảm kích thước font chữ */
+  }
+
+  .confirmButton {
+      font-size: 14px; /* Giảm kích thước font chữ của nút */
+      padding: 8px 16px; /* Giảm kích thước padding */
   }
 }
