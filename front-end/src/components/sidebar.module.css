@@ -289,3 +289,31 @@ form button:hover {
   background-color: #516bd1;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
 }
+
+/* Bảng danh sách thiết bị */
+.deviceTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.deviceTable th,
+.deviceTable td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.deviceTable tr:nth-child(odd) {
+  background-color: #fff;
+}
+
+.deviceTable tr:nth-child(even) {
+  background-color: #e6f7ff;
+}
+
+.deviceTable th {
+  background-color: #243579;
+  font-weight: bold;
+  color: #fff;
+}
