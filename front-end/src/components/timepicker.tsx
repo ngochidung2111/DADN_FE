@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-const TimePicker: React.FC = () => {
-  const [startTime, setStartTime] = useState<string>('05:00');
-  const [endTime, setEndTime] = useState<string>('05:30');
+interface TimePickerProps {
+  startTime: string;
+  endTime: string;
+  onStartTimeChange: (value: string) => void;
+  onEndTimeChange: (value: string) => void;
+}
 
-  const handleStartTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setStartTime(e.target.value);
-  };
-
-  const handleEndTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEndTime(e.target.value);
-  };
-
+const TimePicker: React.FC<TimePickerProps> = ({ startTime, endTime, onStartTimeChange, onEndTimeChange }) => {
   return (
     <div style={{ backgroundColor: '#C5E3FF', padding: '20px', borderRadius: '10px', color: '#000' }}>
       <h2 style={{ textAlign: 'center', fontFamily: 'Arial, sans-serif', fontSize:'40px' }}>Hẹn giờ</h2>
@@ -21,7 +17,7 @@ const TimePicker: React.FC = () => {
           <input
             type="time"
             value={startTime}
-            onChange={handleStartTimeChange}
+            onChange={(e) => onStartTimeChange(e.target.value)}
             style={{
               fontSize: '30px',
               padding: '5px',
@@ -37,7 +33,7 @@ const TimePicker: React.FC = () => {
           <input
             type="time"
             value={endTime}
-            onChange={handleEndTimeChange}
+            onChange={(e) => onEndTimeChange(e.target.value)}
             style={{
               fontSize: '30px',
               padding: '5px',
