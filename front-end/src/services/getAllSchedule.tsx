@@ -29,7 +29,12 @@ interface ScheduleResponse {
 // Create a function to fetch all schedules for a device
 export const fetchDeviceSchedule = async (deviceId: number): Promise<Schedule[]> => {
   try {
-    const response = await axios.get<ScheduleResponse>(`${BASE_URL}/${deviceId}/schedule`);
+    const accessToken = localStorage.getItem('token');
+   
+    const headers = {
+      'Authorization': `Bearer ${accessToken}`,
+    };
+    const response = await axios.get<ScheduleResponse>(`${BASE_URL}/${deviceId}/schedule`, { headers });
     const { status, data } = response.data;
     
     if (status === 200 && data.length > 0) {
