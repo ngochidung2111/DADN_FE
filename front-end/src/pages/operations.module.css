@@ -3,12 +3,12 @@
 /* Container tổng, chứa 2 panel trái/phải */
 .container-operation {
     display: flex;
-    width: 92vw;
-    height: 89vh;
-    justify-content: space-between;
+    width: 96.5vw;
+    height: 100vh;
+    justify-content: flex-start; 
     align-items: center;
-    gap: 6vw;
-    padding: 30px 52px 30px 50px;
+    gap: 0vw;
+    padding: 0px 0px 0px 50px;
     background-color: #C5E3FF;
     color: #000;
 }
@@ -32,6 +32,7 @@
     font-style: normal;
     font-size: 64px;
     text-align-last: center;
+   
 }
 
 /* Grid chứa các card (Nhiệt độ, Độ ẩm, v.v.) */
@@ -73,13 +74,14 @@
 /* Panel bên phải (Trợ năng) */
 .right-panel {
     background-color: #f8f9fa;
-    width: 35%;
+    width: 30%;
     height: 80vh;
     padding: 25px 0px 25px 25px;
     border-radius: 40px;
     border: #2A376D solid 2.5px;
     box-sizing: border-box;
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.35);
+    margin-left: 20vh; /* Thêm margin bên phải */
 
 }
 

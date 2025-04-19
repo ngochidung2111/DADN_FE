@@ -1,17 +1,20 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./tabs.module.css";
 
-const Tabs: React.FC = () => {
-  const [selectedTabs, setSelectedTabs] = useState<string[]>(["T2"]);
+interface TabsProps {
+  selectedTabs: string[];
+  onChange: (newSelected: string[]) => void;
+}
 
+const Tabs: React.FC<TabsProps> = ({ selectedTabs, onChange }) => {
   const tabs = ["T2", "T3", "T4", "T5", "T6", "T7", "CN"];
 
   const toggleTab = (tab: string) => {
-    setSelectedTabs((prevSelected) =>
-      prevSelected.includes(tab)
-        ? prevSelected.filter((t) => t !== tab) // Bỏ chọn nếu đã được chọn
-        : [...prevSelected, tab] // Thêm vào danh sách nếu chưa chọn
-    );
+    if (selectedTabs.includes(tab)) {
+      onChange(selectedTabs.filter((t) => t !== tab));
+    } else {
+      onChange([...selectedTabs, tab]);
+    }
   };
 
   return (
