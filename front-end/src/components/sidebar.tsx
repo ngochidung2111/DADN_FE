@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaHome, FaCircle, FaCog, FaBars } from 'react-icons/fa';
 import { IoPersonSharp } from "react-icons/io5";
 import styles from './sidebar.module.css';
@@ -9,11 +9,19 @@ interface SidebarProps {
   userName?: string;
 }
 
+interface Device {
+  id: number;
+  name: string;
+  feedName: string;
+  state: string;
+}
+
 const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
   const [activeForm, setActiveForm] = useState<string | null>(null);
-
+  const [devices, setDevices] = useState<Device[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
@@ -34,6 +42,49 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
     setIsSettingsOpen(!isSettingsOpen);
   };
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    if (activeForm === 'devicesList') {
+      const fetchDevicesAndStates = async () => {
+        setLoading(true);
+        try {
+          // 1) Lấy danh sách devices
+          const resAll = await fetch('https://iot-project-y7dx.onrender.com/api/v1/device/get-all');
+          const jsonAll = await resAll.json();
+          const list: Omit<Device, 'state'>[] = jsonAll.data;
+
+          // 2) Với mỗi device, gọi API lấy state
+          const withStates = await Promise.all(
+            list.map(async dev => {
+              const resState = await fetch(
+                `https://iot-project-y7dx.onrender.com/api/v1/device/state/${dev.feedName}`
+              );
+              const jsonState = await resState.json();
+              const rawState = jsonState.data;
+
+              // map số sang chuỗi
+              let stateValue: string;
+              if (rawState === 1) stateValue = 'Online';
+              else if (rawState === 0) stateValue = 'Offline';
+              else stateValue = String(rawState);
+              return { ...dev, state: stateValue };
+            })
+          );
+
+          setDevices(withStates);
+        } catch (err) {
+          console.error('Fetch devices error:', err);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchDevicesAndStates();
+    }
+  }, [activeForm]);
+
+
 
   return (
     <div>
@@ -91,6 +142,12 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
                     >
                       Thêm cảm biến
                     </div>
+                    <div
+                      className={styles.dropdownItem}
+                      onClick={() => showForm('devicesList')}
+                    >
+                      Danh sách thiết bị
+                    </div>
                   </div>
                 )}
               </div>
@@ -108,9 +165,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
       {/* Render overlay và form khi activeForm khác null */}
       {activeForm && (
         <>
-          {/* Lớp phủ overlay */}
-          <div className={styles.overlay} onClick={closeForm}></div>
-          {/* Form hiển thị */}
+          <div className={styles.overlay} onClick={closeForm} />
           <div className={styles.formContainer}>
             {activeForm === 'accountConfig' && (
               <div className={styles.formContent}>
@@ -149,10 +204,49 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
                 <h2>Thêm cảm biến</h2>
                 <form>
                   <div className={styles.formGroup}>
-                    <label>Trường dữ liệu</label>
-                    <input type="text" placeholder="Nhập dữ liệu cảm biến" />
+                    <label>Sensor Type</label>
+                    <input type="text" placeholder="Nhập loại cảm biến" />
+                  </div>
+                  <div className={styles.formGroup}>
+                    <label>Feedname</label>
+                    <input type="text" placeholder="Nhập Feedname" />
                   </div>
                   <button type="submit">Lưu</button>
+                </form>
+              </div>
+            )}
+            {activeForm === 'devicesList' && (
+              <div className={styles.formContent}>
+                <h2>Danh sách thiết bị</h2>
+
+                {loading ? (
+                  <p>Đang tải...</p>
+                ) : (
+                  <table className={styles.deviceTable}>
+                    <thead>
+                      <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>FeedName</th>
+                        <th>State</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {devices.map((d, idx) => (
+                        <tr key={d.id}>
+                          <td>{d.id}</td>
+                          <td>{d.name}</td>
+                          <td>{d.feedName}</td>
+                          <td>{d.state}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                )}
+                <form>
+                  <button type="button" onClick={closeForm}>
+                    Xong
+                  </button>
                 </form>
               </div>
             )}
