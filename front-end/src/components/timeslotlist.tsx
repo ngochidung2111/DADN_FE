@@ -1,13 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { fetchDeviceSchedule } from '../services/getAllSchedule';
 import styles from './timeslotlist.module.css';
 import DeleteButton from './deletebutton';
+import Loader from '../components/loading';
+interface Device {
+  id: number;
+  name: string;
+  feedName: string;  // Changed from seedName to feedName
+}
+
+interface Schedule {
+  id: number;
+  mon: boolean;
+  tue: boolean;
+  wed: boolean;
+  thu: boolean;
+  fri: boolean;
+  sat: boolean;
+  sun: boolean;
+  from: string;
+  to: string;
+  device: Device;
+}
 
 type TimeSlotProps = {
   startTime?: string;
   endTime?: string;
   days?: string;
   devices?: string[];
-  onDelete?: () => void;  // Now optional, so empty rows work
+  onDelete?: () => void;
 };
 
 const TimeSlot: React.FC<TimeSlotProps> = ({
@@ -15,87 +36,164 @@ const TimeSlot: React.FC<TimeSlotProps> = ({
   endTime = '',
   days = '',
   devices = [],
-  
+  onDelete,
 }) => {
   return (
     <div className={styles.timeSlot}>
-      <div className={styles.timeContainer}>
-        <div className={styles.timeLeft}>{startTime}</div>
-        <div className={styles.timeRight}>{endTime}</div>
-      </div>
-      <div className={styles.detailsAndDevices}>
-        <div className={styles.details}>{days}</div>
-        <div className={styles.devices}>
-          {devices.map((device, index) => (
-            <span key={index}>
-              {device}
-              {index < devices.length - 1 && ' | '}
-            </span>
-          ))}
+      <div className={styles.mainContent}>
+        <div className={styles.timeContainer}>
+          <div className={styles.timeLeft}>{startTime}</div>
+          <div className={styles.timeRight}>{endTime}</div>
+        </div>
+        <div className={styles.contentContainer}>
+          <div className={styles.detailsAndDevices}>
+            <div className={styles.details}>{days}</div>
+            <div className={styles.devices}>
+              {devices.map((device, index) => (
+                <span key={index}>
+                  {device}
+                  {index < devices.length - 1 && ' | '}
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-      
+      {onDelete && (
+        <div className={styles.deleteButtonContainer}>
+          <DeleteButton onClick={onDelete} />
+        </div>
+      )}
     </div>
   );
 };
 
-const TimeSlotList: React.FC = () => {
-  const [timeSlots, setTimeSlots] = useState([
-    {
-      startTime: '05:30',
-      endTime: '06:00',
-      days: 'T2, T4, T6, CN',
-      devices: ['Đèn', 'Cửa', 'Rèm'],
-    },
-    {
-      startTime: '05:30',
-      endTime: '06:00',
-      days: 'T2, T4, T6, CN',
-      devices: ['Đèn', 'Cửa', 'Rèm'],
-    },
-    {
-      startTime: '05:30',
-      endTime: '06:00',
-      days: 'T2, T4, T6, CN',
-      devices: ['Đèn', 'Cửa', 'Rèm'],
-    },
-  ]);
-
-  const handleDelete = (index: number) => {
-    const newTimeSlots = timeSlots.filter((_, i) => i !== index);
-    setTimeSlots(newTimeSlots);
+const convertDaysToText = (schedule: Schedule): string => {
+  const dayMap: { [key: string]: string } = {
+    mon: 'T2',
+    tue: 'T3',
+    wed: 'T4',
+    thu: 'T5',
+    fri: 'T6',
+    sat: 'T7',
+    sun: 'CN'
   };
 
-  // Always render 4 rows
-  const totalRows = 6;
-  const rows = Array.from({ length: totalRows }).map((_, idx) => {
-    if (idx < timeSlots.length) {
-      const slot = timeSlots[idx];
+  return Object.entries(dayMap)
+    .filter(([key]) => schedule[key as keyof Schedule])
+    .map(([_, value]) => value)
+    .join(', ');
+};
+
+const TimeSlotList: React.FC = () => {
+  const [timeSlots, setTimeSlots] = useState<Schedule[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
+  const deviceId = 1; // Replace with actual device ID
+
+  useEffect(() => {
+    const loadSchedules = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        
+        // Fetch schedules for devices 1-3
+        const deviceIds = [1, 2, 3];
+        const allSchedules = await Promise.all(
+          deviceIds.map(id => fetchDeviceSchedule(id))
+        );
+        
+        // Combine all schedules into a single array
+        const combinedSchedules = allSchedules.flat();
+        
+        // Sort schedules by time if needed
+        const sortedSchedules = combinedSchedules.sort((a, b) => 
+          a.from.localeCompare(b.from)
+        );
+        
+        setTimeSlots(sortedSchedules);
+      } catch (error) {
+        console.error('Error loading schedules:', error);
+        setError('Failed to load schedules');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadSchedules();
+  }, [deviceId]); 
+  const handleDelete = async (index: number) => {
+    try {
+      // TODO: Implement delete API call here
+      const newTimeSlots = timeSlots.filter((_, i) => i !== index);
+      setTimeSlots(newTimeSlots);
+    } catch (error) {
+      console.error('Error deleting schedule:', error);
+    }
+  };
+  const totalPages = Math.ceil(timeSlots.length / itemsPerPage);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = timeSlots.slice(indexOfFirstItem, indexOfLastItem);
+
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (error) {
+    return <div className={styles.error}>{error}</div>;
+  }
+
+  
+  const rows = Array.from({ length: itemsPerPage }).map((_, idx) => {
+    if (idx < currentItems.length) {
+      const slot = currentItems[idx];
       return (
-        <div key={idx} className={styles.timeSlotWithDelete}>
+        <div key={slot.id} className={styles.timeSlotContainer}>
           <TimeSlot
-            startTime={slot.startTime}
-            endTime={slot.endTime}
-            days={slot.days}
-            devices={slot.devices}
-            onDelete={() => handleDelete(idx)}
+            startTime={slot.from.substring(0, 5)}
+            endTime={slot.to.substring(0, 5)}
+            days={convertDaysToText(slot)}
+            devices={[slot.device.name]}
+            onDelete={() => handleDelete(indexOfFirstItem + idx)}
           />
-          <div className={styles.deleteButtonContainer}>
-            <DeleteButton onClick={() => handleDelete(idx)} />
-          </div>
         </div>
       );
     } else {
-      // Render an empty placeholder row and apply an extra CSS class for styling
       return (
-        <div key={idx} className={`${styles.timeSlotWithDelete} ${styles.emptyTimeSlot}`}>
+        <div key={`empty-${idx}`} className={styles.emptyTimeSlot}>
           <TimeSlot />
         </div>
       );
     }
   });
 
-  return <div className={styles.wrapper}>{rows}</div>;
+  return (
+    <div className={styles.wrapper}>
+      {rows}
+      {totalPages > 1 && (
+        <div className={styles.pagination}>
+          {Array.from({ length: totalPages }).map((_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => handlePageChange(index + 1)}
+              className={`${styles.pageButton} ${
+                currentPage === index + 1 ? styles.activePage : ''
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
 };
 
 export default TimeSlotList;
