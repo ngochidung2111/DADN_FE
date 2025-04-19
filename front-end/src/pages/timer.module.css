@@ -107,7 +107,7 @@
 .confirmButton:hover {
   background-color: #2890ff;
 }
-@media (max-width: 1250px) {
+@media (max-width: 1385px) {
   .timerSection {
     flex-direction: column;
   }

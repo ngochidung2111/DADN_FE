@@ -9,7 +9,13 @@ interface ToggleLightResponse {
 
 export const turnOffFireAlarm = async () => {
     try {
-        const response = await axios.post<ToggleLightResponse>(API_URL);
+        const accessToken = localStorage.getItem('token');
+   
+        const headers = {
+          'Authorization': `Bearer ${accessToken}`,
+          'Content-Type': 'application/json'
+        };
+        const response = await axios.post<ToggleLightResponse>(API_URL,{headers});
         
         console.log('Toggle motor:', response.data.message);
         return response.data;

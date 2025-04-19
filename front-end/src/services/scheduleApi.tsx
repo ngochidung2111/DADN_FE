@@ -14,10 +14,16 @@ export async function scheduleDevice(
   }
 ): Promise<any> {
     try {
+      const accessToken = localStorage.getItem('token');
+   
+      const headers = {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      };
         const response = await axios.post(
           `https://iot-project-y7dx.onrender.com/api/v1/device/${device}/schedule`,
           schedule,
-          { headers: { 'Content-Type': 'application/json' } }
+          { headers } 
         );
         return response.data;
       } catch (error: any) {
