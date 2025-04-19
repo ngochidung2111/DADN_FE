@@ -296,23 +296,33 @@ form button {
 form button:hover {
   background-color: #516bd1;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
+}
 
-/* Media query cho các màn hình cực kỳ nhỏ (dưới 480px) */
-@media (max-width: 480px) {
-  .sidebar {
-    width: 50px; /* Giảm độ rộng thêm một chút nếu màn hình quá nhỏ */
-  }
+/* Bảng danh sách thiết bị */
+.deviceTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
 
-  .sidebar:hover {
-    width: 120px; /* Mở rộng khi hover nhưng giới hạn độ rộng */
-  }
+.deviceTable th,
+.deviceTable td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
 
-  .iconWrapper {
-    width: 50px;
-  }
+.deviceTable tr:nth-child(odd) {
+  background-color: #fff;
+}
 
-  .iconWrapper:hover {
-    width: 120px;
-  }
+.deviceTable tr:nth-child(even) {
+  background-color: #e6f7ff;
+}
 
-}}
+.deviceTable th {
+  background-color: #243579;
+  font-weight: bold;
+  color: #fff;
+}
+
