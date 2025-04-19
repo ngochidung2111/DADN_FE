@@ -22,9 +22,10 @@ const iconMap: { [key: string]: string } = {
 
 interface ToggleListProps {
   onChange: (selectedIds: string[]) => void;
+  refreshTrigger?: boolean;
 }
 
-const ToggleList: React.FC<ToggleListProps> = ({ onChange }) => {
+const ToggleList: React.FC<ToggleListProps> = ({  onChange, refreshTrigger }) => {
   const [items, setItems] = useState<ToggleItem[]>([]);
 
   // Fetch devices using the API when the component mounts.
@@ -64,7 +65,7 @@ const ToggleList: React.FC<ToggleListProps> = ({ onChange }) => {
       }
     }
     fetchDevices();
-  }, []);
+  }, [refreshTrigger]);
 
   // Toggle the state for a specific item.
   const handleToggle = (id: string) => {
