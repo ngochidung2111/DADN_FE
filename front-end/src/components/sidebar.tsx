@@ -232,7 +232,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
                       </tr>
                     </thead>
                     <tbody>
-                      {devices.map((d, idx) => (
+                      {devices.map((d) => (
                         <tr key={d.id}>
                           <td>{d.id}</td>
                           <td>{d.name}</td>
