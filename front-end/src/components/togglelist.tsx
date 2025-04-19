@@ -1,52 +1,96 @@
-import React, { useState } from "react";
-import Switch from "./switch"; // Import switch của bạn
-import styles from "./ToggleList.module.css";
+import React, { useState, useEffect } from "react";
+import Switch from "./switch";
+import styles from "./togglelist.module.css";
 import bulbIcon from "../assets/bulb.png";
 import curtainIcon from "../assets/curtain.png";
 import windowIcon from "../assets/window.png";
-interface ToggleItem {
-  id: number;
+import { getAllDevices } from "../services/getAlllDevices";
+
+export interface ToggleItem {
+  id: string; // id is now a string
   icon: string;
   label: string;
   state: boolean;
 }
 
-const initialItems: ToggleItem[] = [
-  { id: 1, icon: "../assets/bulb.png", label: "Đèn phòng", state: false },
-  { id: 2, icon: "../assets/curtain.png", label: "Rèm cửa", state: false },
-  { id: 3, icon: "../assets/window.png", label: "Cửa sổ", state: false },
-];
+// Map device names to icons (adjust labels if needed)
 const iconMap: { [key: string]: string } = {
-    "Đèn phòng": bulbIcon,
-    "Rèm cửa": curtainIcon,
-    "Cửa sổ": windowIcon,
+  "Bóng đèn": bulbIcon,
+  "Rèm cửa": curtainIcon,
+  "Cửa sổ": windowIcon,
 };
 
-const updatedItems = initialItems.map((item) => ({
-    ...item,
-    icon: iconMap[item.label] || item.icon,
-}));
+interface ToggleListProps {
+  onChange: (selectedIds: string[]) => void;
+}
 
-const ToggleList: React.FC = () => {
-    const [items, setItems] = useState<ToggleItem[]>(updatedItems);
+const ToggleList: React.FC<ToggleListProps> = ({ onChange }) => {
+  const [items, setItems] = useState<ToggleItem[]>([]);
 
+  // Fetch devices using the API when the component mounts.
+  useEffect(() => {
+    async function fetchDevices() {
+      try {
+        const result = await getAllDevices();
+        // The API is expected to return { status, message, data: [ {id, name, feedName}, ... ] }
+        if (result && result) {
+          const toggleItems = result.map((device: any) => {
+            let icon = "";
+            if (device.name === "light") {
+              icon = iconMap["Bóng đèn"];
+            } else if (device.name === "motor") {
+              icon = iconMap["Rèm cửa"];
+            } else if (device.name === "servo") {
+              icon = iconMap["Cửa sổ"];
+            }
+            return {
+              id: device.id.toString(), // convert id to string
+              label:
+                device.name === "light"
+                  ? "Bóng đèn"
+                  : device.name === "motor"
+                  ? "Rèm cửa"
+                  : device.name === "servo"
+                  ? "Cửa sổ"
+                  : device.name,
+              icon: icon,
+              state: false,
+            };
+          });
+          setItems(toggleItems);
+        }
+      } catch (error) {
+        console.error("Failed to fetch devices:", error);
+      }
+    }
+    fetchDevices();
+  }, []);
 
-  const handleToggle = (id: number) => {
-    setItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, state: !item.state } : item
-      )
+  // Toggle the state for a specific item.
+  const handleToggle = (id: string) => {
+    const updated = items.map((item) =>
+      item.id === id ? { ...item, state: !item.state } : item
     );
+    setItems(updated);
+    // Pass the list of selected ids (as strings) to the parent component.
+    onChange(updated.filter((item) => item.state).map((item) => item.id));
   };
 
   return (
     <div className={styles.container}>
       {items.map((item) => (
         <div key={item.id} className={styles.item}>
-          <img src={item.icon} alt={item.label} className={styles.icon} />
+          {item.icon && (
+            <img src={item.icon} alt={item.label} className={styles.icon} />
+          )}
           <span className={styles.label}>{item.label}</span>
           <div className={styles.switch}>
-          <Switch checked={item.state} onChange={() => handleToggle(item.id)} id={`switch-${item.id}`} /></div>
+            <Switch
+              checked={item.state}
+              onChange={() => handleToggle(item.id)}
+              id={`switch-${item.id}`}
+            />
+          </div>
         </div>
       ))}
     </div>

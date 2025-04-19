@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { FaHome, FaCircle, FaCog, FaBars } from 'react-icons/fa';
 import { IoPersonSharp } from "react-icons/io5";
-import styles from './Sidebar.module.css';
+import styles from './sidebar.module.css';
 import { useNavigate } from 'react-router-dom';
-// import Person from '../assets/person.png';
 
 interface SidebarProps {
   isLogin: boolean;
@@ -44,6 +43,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
   };
   const navigate = useNavigate();
 
+
   useEffect(() => {
     if (activeForm === 'devicesList') {
       const fetchDevicesAndStates = async () => {
@@ -83,6 +83,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
       fetchDevicesAndStates();
     }
   }, [activeForm]);
+
 
 
   return (
