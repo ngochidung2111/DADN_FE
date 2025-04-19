@@ -49,37 +49,64 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
       const fetchDevicesAndStates = async () => {
         setLoading(true);
         try {
-          // 1) Lấy danh sách devices
-          const resAll = await fetch('https://iot-project-y7dx.onrender.com/api/v1/device/get-all');
+          // 1) Fetch devices list with error handling
+          const resAll = await fetch('https://iot-project-y7dx.onrender.com/api/v1/device/get-all', {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            }
+          });
+  
+          if (!resAll.ok) {
+            throw new Error(`Failed to fetch devices: ${resAll.status} ${resAll.statusText}`);
+          }
+  
           const jsonAll = await resAll.json();
-          const list: Omit<Device, 'state'>[] = jsonAll.data;
-
-          // 2) Với mỗi device, gọi API lấy state
+          const list: Omit<Device, 'state'>[] = jsonAll.data || [];
+  
+          // 2) Fetch states with error handling
           const withStates = await Promise.all(
             list.map(async dev => {
-              const resState = await fetch(
-                `https://iot-project-y7dx.onrender.com/api/v1/device/state/${dev.feedName}`
-              );
-              const jsonState = await resState.json();
-              const rawState = jsonState.data;
-
-              // map số sang chuỗi
-              let stateValue: string;
-              if (rawState === 1) stateValue = 'Online';
-              else if (rawState === 0) stateValue = 'Offline';
-              else stateValue = String(rawState);
-              return { ...dev, state: stateValue };
+              try {
+                const resState = await fetch(
+                  `https://iot-project-y7dx.onrender.com/api/v1/device/state/${dev.feedName}`,
+                  {
+                    headers: {
+                      'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    }
+                  }
+                );
+  
+                if (!resState.ok) {
+                  console.warn(`Failed to fetch state for device ${dev.feedName}`);
+                  return { ...dev, state: 'Unknown' };
+                }
+  
+                const jsonState = await resState.json();
+                const rawState = jsonState.data;
+  
+                let stateValue: string;
+                if (rawState === 1) stateValue = 'Online';
+                else if (rawState === 0) stateValue = 'Offline';
+                else stateValue = String(rawState);
+  
+                return { ...dev, state: stateValue };
+              } catch (error) {
+                console.error(`Error fetching state for device ${dev.feedName}:`, error);
+                return { ...dev, state: 'Error' };
+              }
             })
           );
-
+  
           setDevices(withStates);
         } catch (err) {
           console.error('Fetch devices error:', err);
+          setDevices([]); // Set empty array on error
         } finally {
           setLoading(false);
         }
       };
-
+  
       fetchDevicesAndStates();
     }
   }, [activeForm]);
