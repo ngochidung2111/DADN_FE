@@ -3,6 +3,7 @@ import { fetchDeviceSchedule } from '../services/getAllSchedule';
 import styles from './timeslotlist.module.css';
 import DeleteButton from './deletebutton';
 import Loader from '../components/loading';
+import  deleteSchedule  from '../services/deleteSchedule';
 interface Device {
   id: number;
   name: string;
@@ -85,7 +86,11 @@ const convertDaysToText = (schedule: Schedule): string => {
     .join(', ');
 };
 
-const TimeSlotList: React.FC = () => {
+interface TimeSlotListProps {
+  refreshTrigger?: any; // Define the type of refreshTrigger if needed
+}
+
+const TimeSlotList: React.FC<TimeSlotListProps> = ({refreshTrigger}) => {
   const [timeSlots, setTimeSlots] = useState<Schedule[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -123,14 +128,19 @@ const TimeSlotList: React.FC = () => {
     };
 
     loadSchedules();
-  }, [deviceId]); 
+  }, [deviceId, refreshTrigger]); 
   const handleDelete = async (index: number) => {
     try {
-      // TODO: Implement delete API call here
+      const slot = timeSlots[index];
+      await deleteSchedule(slot.id.toString());
+      
+      // Only update the UI after successful deletion
       const newTimeSlots = timeSlots.filter((_, i) => i !== index);
       setTimeSlots(newTimeSlots);
     } catch (error) {
       console.error('Error deleting schedule:', error);
+      // Optionally show an error message to the user
+      setError('Failed to delete schedule');
     }
   };
   const totalPages = Math.ceil(timeSlots.length / itemsPerPage);
