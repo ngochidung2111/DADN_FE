@@ -15,7 +15,7 @@ export const toggleMotor = async () => {
           'Authorization': `Bearer ${accessToken}`,
           'Content-Type': 'application/json'
         };
-        const response = await axios.post<ToggleLightResponse>(API_URL,{headers});
+        const response = await axios.post<ToggleLightResponse>(API_URL,{},{headers});
         
         console.log('Toggle motor:', response.data.message);
         return response.data;

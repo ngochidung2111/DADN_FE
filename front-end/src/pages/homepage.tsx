@@ -108,18 +108,24 @@ const Homepage: React.FC = () => {
     // Hàm gọi API để lấy dữ liệu thống kê trung bình theo tuần
     const fetchWeeklyAverage = async (weekType: number = 0) => {
         try {
-            const response = await fetch(`https://iot-project-y7dx.onrender.com/api/v1/statistic/weekly-average?weekType=${weekType}`);
+            const accessToken = localStorage.getItem('token'); 
+            const response = await fetch(`https://iot-project-y7dx.onrender.com/api/v1/statistic/weekly-average?weekType=${weekType}`, {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}` // Replace with your actual token
+            }
+            });
             const result = await response.json();
             
             if (result.data) {
-                // Chuyển đổi dữ liệu API thành định dạng mà biểu đồ yêu cầu
-                const transformedData = result.data.map((item: { date: string; [key: string]: any }) => ({
-                    date: item.date,
-                    value: item[selectedDataKey+'Avg']  // Sử dụng selectedDataKey để lấy giá trị thích hợp (temperatureAvg, humidityAvg, ...)
-                }));
-                
-                setData(transformedData);  // Cập nhật dữ liệu vào state
-                console.log('Transformed Data:', transformedData);  // Kiểm tra dữ liệu sau khi chuyển đổi
+            // Chuyển đổi dữ liệu API thành định dạng mà biểu đồ yêu cầu
+            const transformedData = result.data.map((item: { date: string; [key: string]: any }) => ({
+                date: item.date,
+                value: item[selectedDataKey+'Avg']  // Sử dụng selectedDataKey để lấy giá trị thích hợp (temperatureAvg, humidityAvg, ...)
+            }));
+            
+            setData(transformedData);  // Cập nhật dữ liệu vào state
+            console.log('Transformed Data:', transformedData);  // Kiểm tra dữ liệu sau khi chuyển đổi
             }
         } catch (error) {
             console.error('Error fetching weekly data:', error);

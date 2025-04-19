@@ -4,21 +4,34 @@ import Homepage from './pages/homepage';
 import Register from './pages/register';
 import Operations from './pages/operations';
 import Login from './pages/login';
-import './App.css'
-
+import RequireAuth from './components/requireAuth';   // 👈 thêm dòng này
+import './App.css';
+import { ToastContainer } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Homepage />} />
-        <Route path="/timerpage" element={<TimerPage />} />
-        <Route path='/register' element={<Register />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/operations' element={<Operations />} />
+        {/* Public routes */}
+        <Route path="/login"    element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-        {/* You can add more routes here */}
+        {/* Protected routes */}
+        <Route element={<RequireAuth />}>
+          <Route path="/"           element={<Homepage />} />
+          <Route path="/timerpage"  element={<TimerPage />} />
+          <Route path="/operations" element={<Operations />} />
+        </Route>
       </Routes>
+      <ToastContainer 
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+      />
     </Router>
+    
   );
 }
 
