@@ -9,7 +9,8 @@ import { toggleLight } from '../services/toggleLightApi';
 import { toggleServo } from '../services/toggleServoApi';
 import { useNavigate } from 'react-router-dom';
 import styles from './operations.module.css'; // Import file CSS nếu tách riêng
-
+import { toast } from 'react-toastify';
+import Loader from '../components/Loader';
 interface ToggleSwitchProps {
     label: React.ReactNode; // Sửa từ string sang React.ReactNode để hỗ trợ JSX
     checked: boolean;
@@ -38,7 +39,7 @@ const Operation: React.FC = () => {
     const [denPhong, setDenPhong] = useState(false);
     const [remCua, setRemCua] = useState(false);
     const [cuaSo, setCuaSo] = useState(false);
-
+    const [initialLoading, setInitialLoading] = useState(true);
     // State chứa dữ liệu cảm biến nhận từ websocket
     const [sensorData, setSensorData] = useState({
         temperature: 0,
@@ -74,6 +75,43 @@ const Operation: React.FC = () => {
         return () => {
             ws.close();
         };
+    }, []);
+    useEffect(() => {
+        const fetchDeviceStates = async () => {
+            try {
+                const accessToken = localStorage.getItem('token');
+                const headers = {
+                    'Authorization': `Bearer ${accessToken}`,
+                };
+
+                // Fetch all device states
+                const [lightResponse, motorResponse, servoResponse] = await Promise.all([
+                    fetch('https://iot-project-y7dx.onrender.com/api/v1/device/state/set-elight', { headers }),
+                    fetch('https://iot-project-y7dx.onrender.com/api/v1/device/state/set-emotor', { headers }),
+                    fetch('https://iot-project-y7dx.onrender.com/api/v1/device/state/set-servo', { headers })
+                ]);
+
+                const [lightData, motorData, servoData] = await Promise.all([
+                    lightResponse.json(),
+                    motorResponse.json(),
+                    servoResponse.json()
+                ]);
+
+                setDenPhong(lightData.data === 1);
+                setRemCua(motorData.data === 1);
+                setCuaSo(servoData.data === 1);
+
+            } catch (error) {
+                console.error('Error fetching device states:', error);
+                toast.error('Không thể lấy trạng thái thiết bị');
+            } finally {
+                setInitialLoading(false); // Turn off initial loading after first fetch
+            }
+        };
+
+        fetchDeviceStates();
+        const interval = setInterval(fetchDeviceStates, 5000);
+        return () => clearInterval(interval);
     }, []);
 
     const handleToggleLight = async (checked: boolean) => {
@@ -117,6 +155,7 @@ const Operation: React.FC = () => {
     return (
         <div className={styles['container-operation']}>
             {/* Bên trái: Thông tin Chất lượng không khí */}
+            {initialLoading && <Loader />} {/* Hiển thị Loader khi đang tải dữ liệu */}
             <Sidebar isLogin = {true}/>
             <div className={styles['left-panel']}>
                 <h2>Chất lượng</h2>
