@@ -8,14 +8,30 @@ import styles from './timer.module.css';
 import { scheduleDevice } from '../services/scheduleApi';
 import { toast } from 'react-toastify';
 const TimerPage: React.FC = () => {
-  const [startTime, setStartTime] = useState<string>('05:00');
-  const [endTime, setEndTime] = useState<string>('05:30');
+  const [startTime, setStartTime] = useState<string>('');
+  const [endTime, setEndTime] = useState<string>('');
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
   // Change selectedToggleIds to string[] so that they directly represent device IDs from ToggleList.
   const [selectedToggleIds, setSelectedToggleIds] = useState<string[]>([]);
   const [refreshToggleList, setRefreshToggleList] = useState(false);
   const [refreshTimeSlotList, setRefreshTimeSlotList] = useState(false);
   const handleConfirmSchedule = async () => {
+    if (selectedDays.length === 0) {
+      toast.error('Vui lòng chọn ít nhất một ngày trong tuần!');
+      return;
+    }
+    if (selectedToggleIds.length === 0) {
+      toast.error('Vui lòng chọn ít nhất một thiết bị!');
+      return;
+    }
+    if (!startTime || !endTime) {
+      toast.error('Vui lòng chọn thời gian bắt đầu và kết thúc!');
+      return;
+    }
+    if (startTime >= endTime) {
+      toast.error('Thời gian bắt đầu phải nhỏ hơn thời gian kết thúc!');
+      return;
+    }
     try {
       const schedule = {
         mon: selectedDays.includes("T2"),

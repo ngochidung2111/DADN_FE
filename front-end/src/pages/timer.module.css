@@ -60,9 +60,11 @@
   flex-direction: row;
   align-items: center;
   gap: 20px;
-  transform: scale(1.5);
+  zoom: 1.5; /* Alternative way to increase the size of the tabWrapper */
   transform-origin: left top;
-  margin-left: -200px;
+ 
+
+
 }
 
 .labelText {
@@ -75,10 +77,12 @@
 .tabs {
   flex: 1;
   font-size: 16px;
+  z-index: 0;
 }
 .tabs :global(.ant-tabs-tab) {
   padding: 12px 24px;
   margin: 0 16px;
+  z-index: 0;
 }
 .rightSection > :first-child {
     margin-top: 20px;

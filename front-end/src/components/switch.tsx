@@ -25,9 +25,12 @@ const Switch: React.FC<SwitchProps> = ({ checked, onChange, id }) => {
 };
 
 const StyledWrapper = styled.div`
+  display: flex;
+  z-index: 1;
   .checkbox-wrapper-51 input[type="checkbox"] {
     visibility: hidden;
     display: none;
+    
   }
 
   .checkbox-wrapper-51 .toggle {
