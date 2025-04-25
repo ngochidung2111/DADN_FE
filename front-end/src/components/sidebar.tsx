@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { FaHome, FaCircle, FaCog, FaBars } from 'react-icons/fa';
+import { FaHome, FaCircle, FaCog, FaBars,FaSignOutAlt } from 'react-icons/fa';
 import { IoPersonSharp } from "react-icons/io5";
 import styles from './sidebar.module.css';
 import { useNavigate } from 'react-router-dom';
@@ -15,18 +15,28 @@ interface Device {
   feedName: string;
   state: string;
 }
-
-const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
+interface UserInfo {
+  username: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  address: string;
+}
+const Sidebar: React.FC<SidebarProps> = ({ isLogin}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isSettingsOpen, setIsSettingsOpen] = useState(true);
   const [activeForm, setActiveForm] = useState<string | null>(null);
   const [devices, setDevices] = useState<Device[]>([]);
   const [loading, setLoading] = useState(false);
-
+  const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
+  const [showUserModal, setShowUserModal] = useState(false);
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
   const showForm = (formType: string) => {
     setActiveForm(formType);
     // Đóng dropdown sau khi chọn form
@@ -42,7 +52,31 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
     setIsSettingsOpen(!isSettingsOpen);
   };
   const navigate = useNavigate();
+  // Add this useEffect after the existing useEffect
+useEffect(() => {
+  const fetchUserInfo = async () => {
+    try {
+      const response = await fetch('https://iot-project-y7dx.onrender.com/api/v1/auth/info', {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        }
+      });
 
+      if (!response.ok) {
+        throw new Error('Failed to fetch user info');
+      }
+
+      const data = await response.json();
+      setUserInfo(data.data);
+    } catch (error) {
+      console.error('Error fetching user info:', error);
+    }
+  };
+
+  if (isLogin) {
+    fetchUserInfo();
+  }
+}, [isLogin]);
 
   useEffect(() => {
     if (activeForm === 'devicesList') {
@@ -181,13 +215,48 @@ const Sidebar: React.FC<SidebarProps> = ({ isLogin, userName = 'User' }) => {
             </>
           )}
         </div>
+
         {isLogin && (
-          <div className={styles.iconperson}>
-            <FaCircle size={24} />
-            <span className={styles.labelperson}>{userName}</span>
-          </div>
-        )}
+  <div className={styles.userWrapper}>
+    <div 
+      className={styles.iconperson}
+      onClick={() => setShowUserModal(true)}
+    >
+      <FaCircle size={24} />
+      <span className={styles.labelperson}>{userInfo?.username}</span>
+    </div>
+    <div 
+      className={styles.logoutButton}
+      onClick={handleLogout}
+    >
+      <FaSignOutAlt size={20} />
+
+    </div>
+  </div>
+  
+)}
+
+
       </div>
+      {/* Add the user modal */}
+{showUserModal && userInfo && (
+  <>
+    <div className={styles.overlay} onClick={closeForm} />
+    <div className={styles.formContainer}>
+      <div className={styles.formContent}>
+        <h2>Thông tin người dùng</h2>
+        <div className={styles.userInfoContent}>
+          <p><strong>Tên đăng nhập:</strong> {userInfo.username}</p>
+          <p><strong>Họ tên:</strong> {userInfo.fullName}</p>
+          <p><strong>Số điện thoại:</strong> {userInfo.phone}</p>
+          <p><strong>Địa chỉ:</strong> {userInfo.address}</p>
+          <p><strong>Email:</strong> {userInfo.email}</p>
+        </div>
+        <button className={styles.userbutton} onClick={() => setShowUserModal(false)}>Đóng</button>
+      </div>
+    </div>
+  </>
+)}
       {/* Phần hiển thị form khi người dùng chọn option */}
       {/* Render overlay và form khi activeForm khác null */}
       {activeForm && (

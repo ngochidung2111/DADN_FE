@@ -8,6 +8,8 @@
     background: white;
     width: fit-content;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+
   }
   
   .tab {
@@ -17,6 +19,7 @@
     padding: 0px 0px;
     transition: all 0.3s ease;
     user-select: none; /* Ngăn chặn chọn text */
+     /* Đảm bảo tab nằm trên cùng */
   }
   
   .selected {
