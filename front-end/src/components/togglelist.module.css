@@ -37,17 +37,8 @@
   margin-right: 80px;
 }
 
-.switch1 {
-  display: inline-block;
-  padding: 8px;
-  background-color: #007bff;
-  border-radius: 20px;
-  margin-left: 30px;
-}
 
-.switch input {
-  visibility: hidden;
-}
+
 
 .switch span {
   display: inline-block;
@@ -55,6 +46,6 @@
   height: 20px;
   background-color: #ddd;
   border-radius: 20px;
-  position: relative;
+
 }
 

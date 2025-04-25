@@ -40,18 +40,14 @@
   /* Màu vàng khi hover */
 }
 
-/* Container bọc cho từng icon và label */
-/* Container bọc cho từng icon và label */
 .iconWrapper {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  /* Giữ icon ở bên trái */
   width: 20px;
-  /* Tăng chiều rộng để chứa cả icon và label */
-  margin: 30px 0;
-
+  margin: 0px 0;
+  margin: 15px 0;
   transition: all 0.1s ease;
   padding: 10px;
 
@@ -62,7 +58,6 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
   width: 180px;
-  /* Mở rộng khi hover */
 
 }
 
@@ -75,11 +70,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Căn giữa icon */
   width: 50px;
-  /* Giữ cố định chiều rộng cho phần icon */
-  margin: 30px auto;
-  /* Sử dụng auto để căn giữa theo chiều ngang, loại bỏ margin-left */
+  margin: 0px auto;
   bottom: 0;
 }
 
@@ -128,6 +120,7 @@
 
 .iconprimary {
   margin-top: 50px;
+  gap: 10px
 }
 
 /* Khi hover sidebar, chỉ cần hiển thị label */
@@ -139,54 +132,8 @@
   opacity: 1;
 }
 
-/* For screens smaller than 768px, expand the sidebar width without repositioning it *//* Sidebar.module.css */
-/* Media query cho các màn hình nhỏ hơn 768px */
-@media (max-width: 768px) {
-  .sidebar {
-    width: 60px; /* Giảm chiều rộng sidebar */
-    transition: width 0.3s ease-in;
-  }
 
 
-  .sidebar:hover {
-    width: 150px; /* Tăng chiều rộng khi hover */
-  }
-
-
-  .iconWrapper {
-    width: 60px;
-  }
-
-  .iconWrapper:hover {
-    width: 150px;
-  }
-
-  .label {
-    opacity: 0;
-  }
-
-
-  .iconperson {
-    position: absolute;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    bottom: 0;
-  }
-
-  .labelperson {
-    opacity: 0;
-  }
-}
-
-@media (min-width: 1600px) {
-  .sidebar {}
-
-  .sidebar:hover {}
-
-
-}
 
 /* Sidebar.module.css */
 .settingsDropdown {
@@ -196,7 +143,7 @@
   flex-direction: column;
   position: relative;
   left: 100%;
-  top: -75px;
+  top: -60px;
   background-color: #2f3136;
   color: #f0f0f0;
   border-radius: 5px;
@@ -243,7 +190,7 @@
   /* lớp phủ màu đen với độ mờ 50% */
   backdrop-filter: blur(4px);
   /* hiệu ứng làm mờ (optional) */
-  z-index: 150;
+  z-index: 9998; /* Tăng z-index lên cao hơn */
 }
 
 .formContainer {
@@ -258,6 +205,7 @@
   z-index: 200;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   width: 300px;
+  z-index: 9999999; /* Đảm bảo form nằm trên overlay */
 }
 
 .formContent h2 {
@@ -326,3 +274,113 @@ form button:hover {
   color: #fff;
 }
 
+
+.userbutton {
+  width: 100%;
+  padding: 0.3rem;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: #9EC8FF;
+  color: #243579;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+
+.userInfoContent {
+  background-color: #ffffff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.userInfoContent p {
+  margin: 0.8rem 0;
+  font-size: 15px;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userInfoContent strong {
+  color: #243579;
+  font-weight: 600;
+  margin-right: 1rem;
+  min-width: 120px;
+}
+
+.userWrapper {
+  position: absolute;  
+  bottom: 20px;        
+  left: 0;           
+  width: 50px;        
+  cursor: pointer;
+  z-index: 9999;
+}
+
+.iconperson {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 50px;
+  margin-bottom: 20px;
+  color: white;
+  transition: all 0.3s ease;
+}
+.userWrapper:hover .userDropdown {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+.userDropdown {
+  position: absolute;
+  top: 0;          /* Đặt ngang hàng với icon */
+  left: 100%; 
+  width: max-content;
+  background-color: #2f3136;
+  border-radius: 5px;
+  padding: 0.5rem;
+  visibility: hidden; /* Use visibility instead of display */
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 0.3s ease, visibility 0s ease 1s, transform 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;/* Thay đổi transform theo trục X */
+  margin-left: 150px;
+ /* Thêm delay khi xuất hiện */
+}
+
+/* Khi sidebar mở rộng */
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center icon */
+  width: 30px; /* Initial width same as userWrapper */
+  padding: 10px;
+  color: #ff4444;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  white-space: nowrap;
+  
+}
+
+.logoutButton:hover {
+  background-color: rgba(255, 68, 68, 0.1);
+}
+.sidebar:hover .logoutButton,
+.sidebar:hover .logoutText {
+  opacity: 1;
+  width: 180px;
+  
+}
+
+.logoutButton:hover {
+  background-color: rgba(255, 68, 68, 0.1);
+  border-radius: 4px;
+}
