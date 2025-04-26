@@ -5,7 +5,6 @@ import bulbIcon from "../assets/bulb.png";
 import curtainIcon from "../assets/curtain.png";
 import windowIcon from "../assets/window.png";
 import { getAllDevices } from "../services/getAlllDevices";
-
 export interface ToggleItem {
   id: string; // id is now a string
   icon: string;
@@ -44,21 +43,24 @@ const ToggleList: React.FC<ToggleListProps> = ({  onChange, refreshTrigger }) =>
             } else if (device.name === "servo") {
               icon = iconMap["Cửa sổ"];
             }
-            return {
+            if (icon) {
+              return {
               id: device.id.toString(), // convert id to string
               label:
                 device.name === "light"
-                  ? "Bóng đèn"
-                  : device.name === "motor"
-                  ? "Rèm cửa"
-                  : device.name === "servo"
-                  ? "Cửa sổ"
-                  : device.name,
+                ? "Bóng đèn"
+                : device.name === "motor"
+                ? "Rèm cửa"
+                : device.name === "servo"
+                ? "Cửa sổ"
+                : device.name,
               icon: icon,
               state: false,
-            };
+              };
+            }
+            return null; // Exclude devices without a matching icon
           });
-          setItems(toggleItems);
+          setItems(toggleItems.filter((item): item is ToggleItem => item !== null));
         }
       } catch (error) {
         console.error("Failed to fetch devices:", error);
