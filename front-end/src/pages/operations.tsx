@@ -3,10 +3,12 @@ import lightIcon from '../assets/light.png';
 import curtainIcon from '../assets/curtain.png';
 import windowIcon from '../assets/window.png';
 import clockIcon from '../assets/clock.png';
+import FireIcon from '../assets/fire_detection.png';
 import Sidebar from '../components/sidebar';
 import { toggleMotor } from '../services/toggleMotorApi';
 import { toggleLight } from '../services/toggleLightApi';
 import { toggleServo } from '../services/toggleServoApi';
+import { turnOffFireAlarm } from '../services/toggleFireDetectionApi';
 import { useNavigate } from 'react-router-dom';
 import styles from './operations.module.css'; // Import file CSS nếu tách riêng
 import { toast } from 'react-toastify';
@@ -40,6 +42,7 @@ const Operation: React.FC = () => {
     const [remCua, setRemCua] = useState(false);
     const [cuaSo, setCuaSo] = useState(false);
     const [initialLoading, setInitialLoading] = useState(true);
+    const [fireAlarm, setFireAlarm] = useState(false);
     // State chứa dữ liệu cảm biến nhận từ websocket
     const [sensorData, setSensorData] = useState({
         temperature: 0,
@@ -143,6 +146,15 @@ const Operation: React.FC = () => {
 
         }
     };
+    const handleToggleFireAlarm = async (checked: boolean) => {
+        try {
+            await turnOffFireAlarm();
+            setFireAlarm(checked);        } 
+            catch (error) {
+            console.error("Error turning off fire alarm:", error);
+            }
+    }
+
     // Xử lý khi bấm vào nút Cài đặt hẹn giờ
     const handleHenGioClick = () => {
         // Ví dụ: điều hướng sang trang hẹn giờ (nếu đã có route "/hen-gio")
@@ -234,6 +246,19 @@ const Operation: React.FC = () => {
                 }
                     checked={cuaSo}
                     onChange={handleToggleServo}
+                />
+                <ToggleSwitch label={
+                    <div className={styles['label-container']}>
+                        <img
+                            src={FireIcon}
+                            alt="Fire Alarm"
+                            style={{ width: '50px', height: '50px', marginRight: '10px' }}
+                        />
+                        <span>Hệ thống báo cháy</span>
+                    </div>
+                }
+                    checked={fireAlarm}
+                    onChange={handleToggleFireAlarm}
                 />
 
                 {/* Nút Cài đặt hẹn giờ (dấu +) */}
