@@ -88,22 +88,24 @@ const Operation: React.FC = () => {
                 };
 
                 // Fetch all device states
-                const [lightResponse, motorResponse, servoResponse] = await Promise.all([
+                const [lightResponse, motorResponse, servoResponse, fire_detection] = await Promise.all([
                     fetch('https://iot-project-y7dx.onrender.com/api/v1/device/state/set-elight', { headers }),
                     fetch('https://iot-project-y7dx.onrender.com/api/v1/device/state/set-emotor', { headers }),
-                    fetch('https://iot-project-y7dx.onrender.com/api/v1/device/state/set-servo', { headers })
+                    fetch('https://iot-project-y7dx.onrender.com/api/v1/device/state/set-servo', { headers }),
+                    fetch('https://iot-project-y7dx.onrender.com/api/v1/device/state/fire-detection', { headers })
                 ]);
 
-                const [lightData, motorData, servoData] = await Promise.all([
+                const [lightData, motorData, servoData, fire_detectionData] = await Promise.all([
                     lightResponse.json(),
                     motorResponse.json(),
-                    servoResponse.json()
+                    servoResponse.json(),
+                    fire_detection.json()
                 ]);
 
                 setDenPhong(lightData.data === 1);
                 setRemCua(motorData.data === 1);
                 setCuaSo(servoData.data === 1);
-
+                setFireAlarm(fire_detectionData.data === 0);
             } catch (error) {
                 console.error('Error fetching device states:', error);
                 toast.error('Không thể lấy trạng thái thiết bị');
