@@ -222,7 +222,7 @@ const Homepage: React.FC = () => {
                                     : criterion.label === 'ĐỘ ẨM'
                                     ? `${sensorData.humidity || 0}%`
                                     : criterion.label === 'CƯỜNG ĐỘ ÁNH SÁNG'
-                                    ? `${sensorData.light || 0}cd`
+                                    ? `${sensorData.light || 0} lux`
                                     : criterion.label === 'CO2'
                                     ? `${sensorData.airQuality || 0}%`
                                     : ''}
