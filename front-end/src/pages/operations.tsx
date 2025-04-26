@@ -105,7 +105,7 @@ const Operation: React.FC = () => {
                 setDenPhong(lightData.data === 1);
                 setRemCua(motorData.data === 1);
                 setCuaSo(servoData.data === 1);
-                setFireAlarm(fire_detectionData.data === 0);
+                setFireAlarm(fire_detectionData.data === 1);
             } catch (error) {
                 console.error('Error fetching device states:', error);
                 toast.error('Không thể lấy trạng thái thiết bị');
